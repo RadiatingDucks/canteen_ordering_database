@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <ul id="navigation">
+    {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <h1>My Webpage</h1>
+    {{ a_variable }}
+
+    {# the boxes featuring items for sale #}
+
+    <div class="menu-grid">
+
+        <!--for every item in the column 'menu_item'-->
+        {% for item in menu_item %}
+
+        <div class="product-box">
+            <!--image with url_for() function to find a file in the images folder with the 'item_photo' string-->
+            <img src="{{ url_for('static', filename = 'images/' + 'item.item_photo') }}", alt ="{{ item.item_name }}">
+            <!-- name of the item-->
+            <h3>{{ item.item_name }}</h3>
+            <!--type of the item-->
+            <p class="category">{{ item.item_type }}</p>
+
+
+            <!--the row on the bottom for price-->
+            <div class="price_row">
+                <!--formated the price to be 2d.p. with "%.2f" string formatting command-->
+                <span class="price">${{ "%.2f" |format(item.price) }}</span>
+                <!--if statement with different thing showing based on whether item is stocked-->
+                {% if item.is_available %}
+                    <button class="add-btn">Add to Cart</button>
+                {% else %}
+                    <span class="out-of-stock">Out of Stock</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!--ending the for function asking for each item in 'menu_item'-->
+        {% end for %}
+        
+    </div>
+
+</body>
+</html>
