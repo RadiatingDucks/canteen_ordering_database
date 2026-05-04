@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
     <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!--font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
     <ul id="navigation">
@@ -10,21 +15,20 @@
     {% endfor %}
     </ul>
 
-    <h1>My Webpage</h1>
-    {{ a_variable }}
+    <h1>Canteen</h1>
 
     {# the boxes featuring items for sale #}
 
     <div class="menu-grid">
 
         <!--for every item in the column 'menu_item'-->
-        {% for item in menu_item %}
+        {% for item in menu_items %}
 
         <div class="product-box">
-            <!--image with url_for() function to find a file in the images folder with the 'item_photo' string-->
-            <img src="{{ url_for('static', filename = 'images/' + 'item.item_photo') }}", alt ="{{ item.item_name }}">
             <!-- name of the item-->
             <h3>{{ item.item_name }}</h3>
+            <!--image with url_for() function to find a file in the images folder with the 'item_photo' string-->
+            <img src="{{ url_for('static', filename = 'images/' + item.item_photo) }}", alt ="{{ item.item_name }}">
             <!--type of the item-->
             <p class="category">{{ item.item_type }}</p>
 
@@ -43,8 +47,8 @@
         </div>
 
         <!--ending the for function asking for each item in 'menu_item'-->
-        {% end for %}
-        
+        {% endfor %}
+
     </div>
 
 </body>
