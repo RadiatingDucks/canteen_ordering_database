@@ -8,6 +8,13 @@
     flex-wrap: wrap;
 }
 
+.product-box, h3{
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+}
+
 .product-box{
     border: 1px solid #bbb;
     border-radius: 8px;
