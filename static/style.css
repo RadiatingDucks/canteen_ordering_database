@@ -1,3 +1,18 @@
+.bottom-nav, a{
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  text-decoration: none;
+  color: black;
+  padding: 0px 10px;
+  word-wrap: normal;
+  display: inline-block;
+  margin: 10px;
+  border-width: 10px;
+  border-color: black;
+}
+
 .menu-grid{
     display: flex;
     flex-direction: row;

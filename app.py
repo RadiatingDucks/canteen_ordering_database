@@ -26,7 +26,7 @@ def home():
     cursor = db.cursor()
 
     sql = "SELECT item_name, item_type, price, is_available, item_photo " \
-    "FROM Menu;"
+    "FROM Menu WHERE is_available = 1;"
 
     cursor.execute(sql)
     results = cursor.fetchall()
