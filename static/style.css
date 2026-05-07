@@ -1,16 +1,110 @@
-.bottom-nav, a{
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+/*reseting the values for body*/
+
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* hides horizontal overflow */
+}
+
+
+/* Top bar*/
+
+.top-bar {
+  background: #000; color: #fff;
+  display: flex; justify-content: space-between;
+  padding: 5px 5%; font-size: 12px;
+}
+
+.top-right, a{
+  color: white;
+}
+
+/*Middle bar*/
+
+.main-header {
+  background: #00bbff; /* Signature Yellow */
+  padding: 25px 5%;
+}
+
+.main-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Search Bar Styling */
+.search-container {
+  display: flex;
+  flex-grow: 1; /* Makes search take up remaining space */
+  max-width: 400px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.search-container input {
+  flex-grow: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+
+/*Search icon*/
+.material-symbols-outlined {
+  margin-top: 6px;
+  margin-right: 5px;
+
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+/*Bottom navigation bar*/
+
+.bottom-nav {
+  background-color: blue;
+  width: 100%;           
+  display: flex;      
+  justify-content: left;
+  padding: 10px 5%;
+  font-family: "Fira Sans", sans-serif;
+}
+
+/* This styles the links inside the bar */
+.bottom-nav a {
   text-decoration: none;
-  color: black;
-  padding: 0px 10px;
-  word-wrap: normal;
-  display: inline-block;
-  margin: 10px;
-  border-width: 10px;
-  border-color: black;
+  color: black;          /* Note: Black text on blue is very hard to read! */
+  padding: 10px 20px;    /* Space around each link */
+  font-weight: 400;
+}
+
+/* Optional: Add a hover effect so users know they can click */
+.bottom-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.a filter{
+  text-align: right;
+}
+
+
+/*font related css*/
+
+h1{
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  text-align: center;
+  margin: 50px;
 }
 
 .menu-grid{
