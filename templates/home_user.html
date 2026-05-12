@@ -7,17 +7,36 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-</head>
-<body>
-    <nav class="bottom-nav">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
+    <div class="top-bar">
+    <div class="top-left">Burnside <b>Canteen</b></div>
+    <div class="top-right"><a href="#">Log in</a></div>
+  </div>
+
+  <!-- 2. Main Header (Yellow) -->
+  <div class="main-header">
+    <div class="container">
+      <div class="logo">Canteen</div>
+      <div class="search-container">
+        <input type="text" placeholder="Search here...">
+        <span class="material-symbols-outlined">search</span>
+      </div>
+      <div class="cart">🛒 $0.00</div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
         <a href="#">Main</a>
         <a href="#">Snacks</a>
         <a href="#">Drinks</a>
         <a href="#">Others</a>
         <a class="filter" href="#">Filter by:</a>
-    </nav>
+  </nav>
 
-    <h1>Canteen</h1>
+</header>
+<body>
+
+    <h1>Menu</h1>
 
     {# the boxes featuring items for sale #}
 
@@ -41,7 +60,7 @@
                 <span class="price">${{ "%.2f" |format(item.price) }}</span>
                 <!--if statement with different thing showing based on whether item is stocked-->
                 {% if item.is_available %}
-                    <button class="add-btn">Add to Cart</button>
+                    <button class="add-btn">Add</button>
                 {% else %}
                     <span class="out-of-stock">Out of Stock</span>
                 {% endif %}
