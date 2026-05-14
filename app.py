@@ -39,5 +39,18 @@ def query_db(query, args=(), one=False):
     cursor.close()
     return (rv[0] if rv else None) if one else rv
 
+@app.route('/<int:item_ID>')
+def item():
+    db = get_db
+    db.row_factory = sqlite3.Row 
+    cursor = db.cursor()
+
+    sql = "SELECT item_name, item_type, price, is_available, item_photo " \
+    "FROM Menu WHERE is_available = 1 AND item_ID = ?;"
+
+    result = query_db(sql, (item_ID,), True)
+    return render_template("item_display.html", item=result)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
