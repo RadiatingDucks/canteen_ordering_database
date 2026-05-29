@@ -10,15 +10,17 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* hides horizontal overflow */
+  background-color: #eef4ed;
 }
 
 
 /* Top bar*/
 
 .top-bar {
-  background: #000; color: #fff;
+  background: #0b2545; color: #fff;
   display: flex; justify-content: space-between;
   padding: 5px 5%; font-size: 12px;
+
 }
 
 .top-right, a{
@@ -28,7 +30,7 @@ body {
 /*Middle bar*/
 
 .main-header {
-  background: #00bbff; /* Signature Yellow */
+  background: #134074; /* Signature Yellow */
   padding: 25px 5%;
 }
 
@@ -71,7 +73,7 @@ body {
 /*Bottom navigation bar*/
 
 .bottom-nav {
-  background-color: blue;
+  background-color: #134074;
   width: 100%;           
   display: flex;      
   justify-content: left;
@@ -129,7 +131,6 @@ h1{
 
 .product-box{
     border: 1px solid #bbb;
-    border-radius: 8px;
     text-align: center;
     transition: transform 0.2s;
     width: 180px;
