@@ -26,7 +26,7 @@ def home():
     db.row_factory = sqlite3.Row 
     cursor = db.cursor()
 
-    sql = "SELECT item_name, item_type, price, is_available, item_photo " \
+    sql = "SELECT item_name, item_ID, item_type, price, is_available, item_photo " \
     "FROM Menu WHERE is_available = 1;"
 
     cursor.execute(sql)
@@ -47,7 +47,7 @@ def item(item_ID):
     cursor = db.cursor()
 
     sql = "SELECT item_name, item_ID, item_type, price, is_available, item_photo " \
-          "FROM Menu WHERE is_available = 1;"
+          "FROM Menu WHERE is_available = 1 AND item_ID = ?;"
 
     cursor.execute(sql, (item_ID,)) 
 
