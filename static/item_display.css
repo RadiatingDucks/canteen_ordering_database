@@ -6,5 +6,29 @@ body {
 }
 
 .bodyArrangement{
-    padding: 0px 40px;
+  padding: 10px 0px;
+  margin: 0px 80px;
+  display: flex;
+  gap: 30px;
+}
+
+img{
+  width: 50vw;
+  max-width: 400px;
+  height: auto;
+  align-self: flex-start;
+}
+
+/* When the screen width is 768px or smaller */
+@media (max-width: 768px) {
+  .bodyArrangement {
+    flex-direction: column; /* image and text aligns vertically instead of horizontally*/
+    margin: 0px 20px;       /* reduces side margins */
+    gap: 20px;  /* space between the image and the text*/
+  }
+
+
+  img{
+    align-self: center;
+  }
 }

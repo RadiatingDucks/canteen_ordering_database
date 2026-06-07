@@ -38,29 +38,31 @@
 <body>
   <div class="bodyArrangement">
     <img src="{{ url_for('static', filename = 'images/' + item.item_photo) }}" alt ="{{ item.item_name }}">
-    <h1>{{item.item_name}}</h1>
+    
 
     {# item info #}
-
-    <div class="price_quantity">
-        <!--formated the price to be 2d.p. with "%.2f" string formatting command-->
-        <span class="price">${{ "%.2f" |format(item.price) }}</span>
-        
-        <!--if statement with different thing showing based on whether item is stocked-->
-        {% if item.is_available %}
-            <button class="add-btn">Add</button>
-        {% else %}
-            <span class="out-of-stock">Out of Stock</span>
-        {% endif %}
-    </div>
-    
-    <!--description of the food item-->
-    <div class = "itemDescription">
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-        <br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-        <br>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+    <div class="price_and_information">
+      <h1>{{item.item_name}}</h1>
+      <div class="price_quantity">
+          <!--formated the price to be 2d.p. with "%.2f" string formatting command-->
+          <span class="price">${{ "%.2f" |format(item.price) }}</span>
+          
+          <!--if statement with different thing showing based on whether item is stocked-->
+          {% if item.is_available %}
+              <button class="add-btn">Add</button>
+          {% else %}
+              <span class="out-of-stock">Out of Stock</span>
+          {% endif %}
+      </div>
+      
+      <!--description of the food item-->
+      <div class = "itemDescription">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+          <br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+          <br>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      </div>
     </div>
   </div>
 </body>
