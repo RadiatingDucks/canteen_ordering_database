@@ -1,13 +1,13 @@
-{% extends 'home_user.html' %}
+{% extends 'base.html' %}
 {% block content %}
-<h1>Login</h1>
+<h1>Signup</h1>
 <!-- A form to login with -->
-<!-- POST to the LOGIN route this is set by the action value -->
-<form action="/login" method="post">
+<!-- the ACTION is the route we try to post to! -->
+<form action="/signup" method="post">
     <label for="username">Username</label>
     <input type="text" name="username">
     <label for="password">Password</label>
     <input type="password" name="password">
-    <button type="submit">Login</button>
+    <button type="submit">Signup</button>
 </form>
 {% endblock %}

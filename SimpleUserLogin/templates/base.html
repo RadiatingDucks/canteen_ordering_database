@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- Add the Navigation Bar in the base template so I don;t have to do it again! -->
+    <nav>
+        <h1><a href="/">Home</a></h1>
+        <h1><a href="/login">Log In</a></h1>
+        <h1><a href="/signup">Sign Up</a></h1>
+        <h1><a href="/logout">Log Out</a></h1>
+    </nav>
+    <!-- This is the main page with most stuff we need in it -->
+    <!-- This starts and ends a 'block' that the child template will fill out with stuff -->
+    {% block content %}{% endblock %}
+
+    <!-- Add the message flashing so we can give the user some feedback about their login process -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</body>
+
+</html>

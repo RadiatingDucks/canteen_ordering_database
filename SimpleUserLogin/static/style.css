@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+}
+
+nav{
+    background-color: antiquewhite;
+    display:flex;
+}
+
+nav h1{
+    margin: 1rem;
+}

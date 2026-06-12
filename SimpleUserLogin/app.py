@@ -1,71 +1,38 @@
-from flask import Flask, g, render_template, request,flash, session, redirect
-
+from flask import Flask, render_template, request,flash, session, redirect
 import sqlite3
 #super cool functions to generate and check password password hashes
 from werkzeug.security import generate_password_hash, check_password_hash
 
-#initialize app
+#create app
 app = Flask(__name__)
-
 #secret key needed gor sessions and flash messages
 app.config['SECRET_KEY'] = "MyReallySecretKey"
 
-# variable declaration for database
-DATABASE = 'canteen_database.db'
+#the path and filename for the database
+DATABASE = "SimpleUserLogin/database.db"
 
-
-
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
-
-@app.route('/')
-def home():
-    db =get_db()
-    db.row_factory = sqlite3.Row 
+#cool function to automatcally connect and query
+def query_db(sql,args=(),one=False):
+    '''connect and query- will return one item if one=true and can accept arguments as tuple'''
+    db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-
-    sql = "SELECT item_name, item_ID, item_type, price, is_available, item_photo " \
-    "FROM Menu WHERE is_available = 1;"
-
-    cursor.execute(sql)
+    cursor.execute(sql, args)
     results = cursor.fetchall()
+    db.commit()
+    db.close()
+    return (results[0] if results else None) if one else results
 
-    return render_template("home_user.html", menu_items=results)
 
-def query_db(query, args=(), one=False):
-    cursor = get_db().execute(query, args)
-    rv = cursor.fetchall()
-    cursor.close()
-    return (rv[0] if rv else None) if one else rv
+#routes go here
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-@app.route('/<int:item_ID>')
-def item(item_ID): 
-    db = get_db() 
-    db.row_factory = sqlite3.Row 
-    cursor = db.cursor()
-
-    sql = "SELECT item_name, item_ID, item_type, price, is_available, item_photo " \
-          "FROM Menu WHERE is_available = 1 AND item_ID = ?;"
-
-    cursor.execute(sql, (item_ID,)) 
-
-    result = cursor.fetchone() 
-    
-    return render_template("item_display.html", item=result)
-
+#Now the cool dynamic route- each image that you click is an anchor tag that 
+#passes an id to this route- we then query for THIS item and send just that 
+#data to a template.
 @app.route('/login', methods=["GET","POST"])
 def login():
-    
     #if the user posts a username and password
     if request.method == "POST":
         #get the username and password
@@ -118,8 +85,3 @@ def logout():
 #this bit of code runs the app that we just made with debug on
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
-    
