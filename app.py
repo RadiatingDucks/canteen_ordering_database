@@ -28,6 +28,8 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+
+
 @app.route('/')
 def home():
     db =get_db()
@@ -42,11 +44,14 @@ def home():
 
     return render_template("home_user.html", menu_items=results)
 
+
 def query_db(query, args=(), one=False):
     cursor = get_db().execute(query, args)
     rv = cursor.fetchall()
     cursor.close()
     return (rv[0] if rv else None) if one else rv
+
+
 
 @app.route('/<int:item_ID>')
 def item(item_ID): 
@@ -62,6 +67,8 @@ def item(item_ID):
     result = cursor.fetchone() 
     
     return render_template("item_display.html", item=result)
+
+
 
 @app.route('/login', methods=["GET","POST"])
 def login():
@@ -113,13 +120,5 @@ def logout():
     session['user'] = None
     return redirect('/')
 
-
-
-#this bit of code runs the app that we just made with debug on
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
-    
