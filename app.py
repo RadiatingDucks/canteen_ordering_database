@@ -1,3 +1,4 @@
+#for activating venv: .\venv\Scripts\activate
 from flask import Flask, g, render_template, request,flash, session, redirect
 
 import sqlite3
@@ -10,11 +11,7 @@ app = Flask(__name__)
 #secret key needed gor sessions and flash messages
 app.config['SECRET_KEY'] = "MyReallySecretKey"
 
-# variable declaration for database
 DATABASE = 'canteen_database.db'
-
-
-
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -113,6 +110,9 @@ def signup():
         flash("Sign Up Successful")
     return render_template('signup.html')
 
+@app.route('/trolley')
+def trolley():
+    return render_template('trolley.html')
 
 @app.route('/logout')
 def logout():
