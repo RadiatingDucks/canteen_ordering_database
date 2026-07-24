@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* hides horizontal overflow */
+  background-color: #eef4ed;
+}
+
+.login {
+    margin: 30px;
+    padding: 60px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 30vw 0px 30vw;
+}

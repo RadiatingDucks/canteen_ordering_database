@@ -6,36 +6,28 @@
     <!--font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
     <div class="top-bar">
-        <div class="top-left">Burnside <b>Canteen</b></div>
+        <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
+        <div class="search-container">
+            <input type="text" placeholder="Search here...">
+            <span class="material-symbols-outlined">search</span>
+        </div>
         <div class="top-right"><a href="/login">Log in</a></div>
     </div>
-
-  <!-- 2. Main Header -->
-  <div class="main-header">
-    <div class="container">
-      <div class="logo"><a href="{{ url_for('home') }}">Canteen</a></div>
-      <div class="search-container">
-        <input type="text" placeholder="Search here...">
-        <span class="material-symbols-outlined">search</span>
-      </div>
-      <div class="cart">🛒 $0.00</div>
-    </div>
-  </div>
 
   <nav class="bottom-nav">
         <a href="#">Main</a>
         <a href="#">Snacks</a>
         <a href="#">Drinks</a>
         <a href="#">Others</a>
-        <a class="filter" href="#">Filter by:</a>
+        <div class="cart"><a href="{{ url_for('trolley') }}">🛒 $0.00</a></div>
   </nav>
 
 </header>
 <body>
-
+    <a class="filter" href="#">Filter by:</a>
     <h1>Menu</h1>
 
     {# the boxes featuring items for sale #}

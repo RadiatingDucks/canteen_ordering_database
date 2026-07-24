@@ -11,44 +11,53 @@ body {
   padding: 0;
   overflow-x: hidden; /* hides horizontal overflow */
   background-color: #eef4ed;
+  font-family: "Anton", sans-serif;
+  text-transform: uppercase;
+  
 }
-
-
 /* Top bar*/
 
 .top-bar {
   background: #3b2f2f; color: #f05a28;
   display: flex; justify-content: space-between;
   padding: 5px 5%; font-size: 12px;
-
 }
 
-.top-right, a{
-  color: white;
+.top-left, .top-right {
+  flex: 1; 
 }
 
-/*Middle bar*/
-
-.main-header {
-  background: #f6c445; /* Signature Yellow */
-  padding: 25px 5%;
-}
-
-.main-header .container {
+.top-right{
+  margin-left: auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
+  justify-content: flex-end; 
+  align-items: center; 
+}
+
+.top-left a{
+  color: #f05a28;
+  font-size: 55px;
+  text-decoration: none;
+  display: flex;
+}
+
+.top-right a {
+  color: white;
+  display: flex;
+  font-size: 20px;
+  align-self: right;
 }
 
 /* Search Bar Styling */
 .search-container {
+  margin: 20px 40px 20px 20px;
   display: flex;
   flex-grow: 1; /* Makes search take up remaining space */
   max-width: 400px;
   background: white;
   border-radius: 4px;
   overflow: hidden;
+  align-self: center;
 }
 
 .search-container input {
@@ -77,15 +86,14 @@ body {
   width: 100%;           
   display: flex;      
   justify-content: left;
-  padding: 10px 5%;
-  font-family: "Fira Sans", sans-serif;
+  padding: 10px 5% 10px 3%;
 }
 
 /* This styles the links inside the bar */
 .bottom-nav a {
   text-decoration: none;
-  color: black;          /* Note: Black text on blue is very hard to read! */
-  padding: 10px 20px;    /* Space around each link */
+  color:#3b2f2f;         
+  padding: 10px 20px; 
   font-weight: 400;
 }
 
@@ -98,15 +106,18 @@ body {
   text-align: right;
 }
 
+.filter{
+  display: inline-block;
+  text-align: left;
+  margin: 20px;
+}
 
-/*font related css*/
-
-h1{
-  font-family: "Fira Sans", sans-serif;
+h1 {
   font-weight: 700;
   font-style: normal;
   text-align: center;
-  margin: 50px;
+  margin: 30px 50px;
+  color:#3b2f2f;
 }
 
 .menu-grid{
@@ -120,7 +131,7 @@ h1{
 }
 
 .product-box h3{
-    font-family: "Fira Sans", sans-serif;
+  color:#3b2f2f;
     font-weight: 400;
     font-style: normal;
     margin: 0;
@@ -145,114 +156,11 @@ h1{
     padding: 20px;
 }
 
-
-
-
-/*Font related classes*/
-.fira-sans-thin {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.fira-sans-extralight {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 200;
-  font-style: normal;
-}
-
-.fira-sans-light {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.fira-sans-regular {
-  font-family: "Fira Sans", sans-serif;
+/*font example
+.anton-regular {
+  font-family: "Anton", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-.fira-sans-medium {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.fira-sans-semibold {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.fira-sans-bold {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.fira-sans-extrabold {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.fira-sans-black {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.fira-sans-thin-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.fira-sans-extralight-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 200;
-  font-style: italic;
-}
-
-.fira-sans-light-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.fira-sans-regular-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.fira-sans-medium-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 500;
-  font-style: italic;
-}
-
-.fira-sans-semibold-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.fira-sans-bold-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.fira-sans-extrabold-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 800;
-  font-style: italic;
-}
-
-.fira-sans-black-italic {
-  font-family: "Fira Sans", sans-serif;
-  font-weight: 900;
-  font-style: italic;
-}
+*/
