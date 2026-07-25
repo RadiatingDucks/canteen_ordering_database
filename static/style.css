@@ -1,5 +1,4 @@
-/*reseting the values for body*/
-
+/* Resets */
 * {
   margin: 0;
   padding: 0;
@@ -9,32 +8,46 @@
 body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* hides horizontal overflow */
+  overflow-x: hidden;
   background-color: #eef4ed;
   font-family: "Anton", sans-serif;
   text-transform: uppercase;
-  
 }
-/* Top bar*/
 
+/* Master Container for Width Limiting */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* --- TOP BAR --- */
 .top-bar {
-  background: #3b2f2f; color: #f05a28;
-  display: flex; justify-content: space-between;
-  padding: 5px 5%; font-size: 12px;
+  background: #3b2f2f; /* Brown background spans 100% of the screen */
+  width: 100%;
+  padding: 10px 0;
+}
+
+.top-bar-content {
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
 }
 
 .top-left, .top-right {
   flex: 1; 
 }
 
-.top-right{
-  margin-left: auto;
+.top-right {
   display: flex;
   justify-content: flex-end; 
   align-items: center; 
 }
 
-.top-left a{
+.top-left a {
   color: #f05a28;
   font-size: 55px;
   text-decoration: none;
@@ -43,21 +56,20 @@ body {
 
 .top-right a {
   color: white;
-  display: flex;
   font-size: 20px;
-  align-self: right;
+  text-decoration: none;
 }
 
 /* Search Bar Styling */
 .search-container {
-  margin: 20px 40px 20px 20px;
   display: flex;
-  flex-grow: 1; /* Makes search take up remaining space */
+  flex-grow: 1;
   max-width: 400px;
   background: white;
   border-radius: 4px;
   overflow: hidden;
   align-self: center;
+  margin: 0 20px;
 }
 
 .search-container input {
@@ -67,49 +79,50 @@ body {
   outline: none;
 }
 
-/*Search icon*/
 .material-symbols-outlined {
   margin-top: 6px;
   margin-right: 5px;
-
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-/*Bottom navigation bar*/
-
+/* --- BOTTOM NAVIGATION BAR --- */
 .bottom-nav {
-  background-color: #f6c445;
-  width: 100%;           
-  display: flex;      
-  justify-content: left;
-  padding: 10px 5% 10px 3%;
+  background-color: #f6c445; /* Yellow background spans 100% of the screen */
+  width: 100%;
 }
 
-/* This styles the links inside the bar */
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 10px; /* Gives nice, consistent spacing between categories */
+}
+
 .bottom-nav a {
   text-decoration: none;
-  color:#3b2f2f;         
-  padding: 10px 20px; 
+  color: #3b2f2f;         
+  padding: 12px 20px; 
   font-weight: 400;
+  display: inline-block;
 }
 
-/* Optional: Add a hover effect so users know they can click */
 .bottom-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
-.a filter{
-  text-align: right;
+.cart {
+  margin-left: auto;
 }
 
-.filter{
+/* --- MAIN PAGE CONTENT --- */
+.filter {
   display: inline-block;
   text-align: left;
-  margin: 20px;
+  margin: 20px 0;
 }
 
 h1 {
@@ -117,50 +130,41 @@ h1 {
   font-style: normal;
   text-align: center;
   margin: 30px 50px;
-  color:#3b2f2f;
+  color: #3b2f2f;
 }
 
-.menu-grid{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    padding: 20px;
-    justify-content: center; /* Aligns items horizontally (Left/Right) */
-    align-items: center;     /* Aligns items vertically (Top/Bottom) */
-    flex-wrap: wrap;
+.menu-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px 0;
+  justify-content: center;
+  align-items: center;    
+  flex-wrap: wrap;
 }
 
-.product-box h3{
-  color:#3b2f2f;
-    font-weight: 400;
-    font-style: normal;
-    margin: 0;
-    font-size: 10px;
-    text-align: left;
-    padding: 10px 90px 20px 10px;
+.product-box {
+  border: 1px solid #bbb;
+  text-align: center;
+  transition: transform 0.2s;
+  width: 180px;
+  height: 310px;
 }
 
-.product-box{
-    border: 1px solid #bbb;
-    text-align: center;
-    transition: transform 0.2s;
-    width: 180px;
-    height: 300px;
-}
-
-.product-box img{
-    width: 150px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 4px;
-    padding: 20px;
-}
-
-/*font example
-.anton-regular {
-  font-family: "Anton", sans-serif;
+.product-box h3 {
+  color: #3b2f2f;
   font-weight: 400;
   font-style: normal;
+  margin: 0;
+  font-size: 15px;
+  text-align: left;
+  padding: 10px 10px 20px 10px;
 }
 
-*/
+.product-box img {
+  width: 150px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  padding: 10px;
+}
