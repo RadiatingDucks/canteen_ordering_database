@@ -1,17 +1,90 @@
-body {
+/* Box sizing reset ensures padding doesn't add extra unexpected size */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* hides horizontal overflow */
-  background-color: #eef4ed;
 }
 
-.login {
-    margin: 30px;
-    padding: 60px;
+body {
+  overflow-x: hidden;
+  background-color: #f6c445;
+  font-family: 'Anton', sans-serif;
+  text-transform: none;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;    /* Vertically centers the login card on the screen */
+  justify-content: center; /* Horizontally centers the login card */
 }
 
+/* Container Wrapper */
+.login-wrapper {
+  width: 100%;
+  padding: 20px;
+}
+
+/* The Login Card Box */
+.login-card {
+  max-width: 400px; /* Controls exact maximum width on big screens */
+  width: 100%;       /* Expands naturally on small mobile screens */
+  margin: 0 auto;    /* Backup horizontal centering */
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #3b2f2f;
+}
+
+/* Form Layout */
 form {
   display: flex;
   flex-direction: column;
-  padding: 0px 30vw 0px 30vw;
+  gap: 20px; /* Clean spacing between username group, password group, & button */
+}
+
+/* Form Field Groups */
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input label {
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  color: #333;
+}
+
+.input input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.input input:focus {
+  outline: none;
+  border-color: #f05a28;
+}
+
+/* Submit Button */
+.login-btn {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #f05a28;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.login-btn:hover {
+  background-color: #d84b1d;
 }

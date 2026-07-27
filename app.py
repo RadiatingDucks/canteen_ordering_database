@@ -29,7 +29,7 @@ def close_connection(exception):
 
 @app.route('/')
 def home():
-    db =get_db()
+    db = get_db()
     db.row_factory = sqlite3.Row 
     cursor = db.cursor()
 
@@ -65,6 +65,21 @@ def item(item_ID):
     
     return render_template("item_display.html", item=result)
 
+
+@app.route('/home/<string:item_type>')
+def catergory(item_type):
+    db = get_db()
+    db.row_factory = sqlite3.Row
+    cursor = db.cursor()
+
+    sql = "SELECT item_name, item_ID, item_type, price, is_available, item_photo " \
+              "FROM Menu WHERE (is_available = 1 AND item_type = ?);"
+
+    cursor.execute(sql, (item_type,))
+
+    result = cursor.fetchall()
+
+    return render_template("home_user.html", menu_items=result, category_name=item_type)
 
 
 @app.route('/login', methods=["GET","POST"])

@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
-    <body>
-        <div class="login">
-            <h1>Login</h1>
-                <!-- A form to login with -->
-                <!-- POST to the LOGIN route this is set by the action value -->
-            <form action="/login" method="post">
-                <label for="username">Username</label>
-                <input type="text" name="username">
-                <label for="password">Password</label>
-                <input type="password" name="password">
-                <button type="submit">Login</button>
-            </form>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Canteen</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+
+  <main class="login-wrapper">
+    <div class="login-card">
+      <h1>Login</h1>
+      
+      <form action="/login" method="post">
+        <div class="input">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="E.g. 21345" name="username" required>
         </div>
-    </body>
+
+        <div class="input">
+          <label for="password">Password</label>
+          <input type="Password" placeholder="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+    </div>
+  </main>
+
+</body>
 </html>

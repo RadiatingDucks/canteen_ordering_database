@@ -28,10 +28,9 @@
     <nav class="bottom-nav">
       <div class="container nav-content">
         <div class="nav-links">
-          <a href="#">Main</a>
-          <a href="#">Snacks</a>
-          <a href="#">Drinks</a>
-          <a href="#">Others</a>
+          <a href="{{ url_for('catergory', item_type='Main') }}">Main</a>
+          <a href="{{ url_for('catergory', item_type='Side') }}">Side</a>
+          <a href="{{ url_for('catergory', item_type='Drink') }}">Drinks</a>
         </div>
         <div class="cart">
           <a href="{{ url_for('trolley') }}">🛒 $0.00</a>
@@ -42,16 +41,16 @@
 
   <main class="container">
     <a class="filter" href="#">Filter by:</a>
-    <h1>Menu</h1>
+    <h1>{{category_name}}</h1>
 
     <div class="menu-grid">
       {% for item in menu_items %}
-      <a href="{{ url_for('item', item_ID=item.item_ID) }}" class="product-card-link">
         <div class="product-box">
-          <h3>{{ item.item_name }}</h3>
-          <img src="{{ url_for('static', filename = 'images/' + item.item_photo) }}" alt="{{ item.item_name }}">
+          <a href="{{ url_for('item', item_ID=item.item_ID) }}" class="product-card-link">
+            <h3>{{ item.item_name }}</h3>
+            <img src="{{ url_for('static', filename = 'images/' + item.item_photo) }}" alt="{{ item.item_name }}">
+          </a>
           <p class="category">{{ item.item_type }}</p>
-
           <div class="price_row">
             <span class="price">${{ "%.2f" |format(item.price) }}</span>
             {% if item.is_available %}
@@ -61,7 +60,6 @@
             {% endif %}
           </div>
         </div>
-      </a>
       {% endfor %}
     </div>
   </main>

@@ -6,17 +6,39 @@ body {
 }
 
 .bodyArrangement{
-  padding: 10px 0px;
+  padding: 30px 0px;
   margin: 0px 80px;
   display: flex;
-  gap: 30px;
+  gap: 50px;
 }
 
 img{
-  width: 50vw;
-  max-width: 400px;
+  flex: 2;
   height: auto;
   align-self: flex-start;
+  border-radius: 10px;
+}
+
+.price_and_information{
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.price_quantity{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price{
+  font-size: 32px;
+}
+
+.add-btn{
+  font-size: 24px;
+  padding: 5px 15px;
 }
 
 /* When the screen width is 768px or smaller */
@@ -24,11 +46,14 @@ img{
   .bodyArrangement {
     flex-direction: column; /* image and text aligns vertically instead of horizontally*/
     margin: 0px 20px;       /* reduces side margins */
-    gap: 20px;  /* space between the image and the text*/
+    gap: 30px;  /* space between the image and the text*/
+    align-items: center;
   }
 
 
   img{
     align-self: center;
+    width: 80%;
+    height: auto;
   }
 }
