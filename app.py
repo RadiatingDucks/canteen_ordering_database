@@ -92,7 +92,7 @@ def login():
         password = request.form['password']
         #try to find this user in the database- note- just keepin' it simple so usernames must be unique
         sql = "SELECT * FROM user WHERE username = ?"
-        user = query_db(sql=sql,args=(username,),one=True)
+        user = query_db(sql,args=(username,),one=True)
         if user:
             #we got a user!!
             #check password matches-

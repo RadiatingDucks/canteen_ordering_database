@@ -81,6 +81,7 @@ body {
 .bottom-nav {
   background-color: #f6c445;
   width: 100%;
+  transition: top 0.3s;
 }
 
 .nav-content {
@@ -135,7 +136,7 @@ h1 {
 .menu-grid {
   display: grid;
   /* At 1400px container width (with gaps), 5 items will fit naturally */
-  grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
   padding: 20px 0;
   width: 100%;
