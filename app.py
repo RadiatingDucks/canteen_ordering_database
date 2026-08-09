@@ -1,7 +1,6 @@
-#for activating venv: .\venv\Scripts\activate
-from flask import Flask, g, render_template, request,flash, session, redirect
-
 import sqlite3
+
+from flask import Flask, g, render_template, request, flash, session, redirect
 #super cool functions to generate and check password password hashes
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -10,6 +9,7 @@ app = Flask(__name__)
 
 #secret key needed gor sessions and flash messages
 app.config['SECRET_KEY'] = "MyReallySecretKey"
+
 
 DATABASE = 'canteen_database.db'
 
@@ -81,34 +81,33 @@ def catergory(item_type):
 
     return render_template("home_user.html", menu_items=result, category_name=item_type)
 
-
-@app.route('/login', methods=["GET","POST"])
-def login():
-    
-    #if the user posts a username and password
+#login function
+@app.route('/login', methods=["GET", "POST"])
+def user_login():
+    #if a user submits their form
     if request.method == "POST":
-        #get the username and password
         username = request.form['username']
         password = request.form['password']
-        #try to find this user in the database- note- just keepin' it simple so usernames must be unique
-        sql = "SELECT * FROM user WHERE username = ?"
-        user = query_db(sql,args=(username,),one=True)
-        if user:
-            #we got a user!!
-            #check password matches-
-            if check_password_hash(user[2],password):
-                #we are logged in successfully
-                #Store the username in the session
-                session['user'] = user
-                flash("Logged in successfully")
-            else:
-                flash("Password incorrect")
+        
+        #fetch user from database
+        sql = "SELECT * FROM User WHERE username = ?"
+        user = query_db(sql, args=(username,), one=True)
+        
+        #Check if user exists and if password hash matches
+        if user and check_password_hash(user['password'], password):
+            #store identifier in session
+            session['user_id'] = user['id']
+            session['username'] = user['username']
+            
+            flash("Logged in successfully!")
+            return redirect('/')
         else:
-            flash("Username does not exist")
-    #render this template regardles of get/post
+            flash("Invalid username or password.")
+
+    #goes back to login page
     return render_template('login.html')
 
-
+"""
 @app.route('/signup', methods=["GET","POST"])
 def signup():
     #if the user posts from the signup page
@@ -124,6 +123,9 @@ def signup():
         #message flashes exist in the base.html template and give user feedback
         flash("Sign Up Successful")
     return render_template('signup.html')
+
+"""
+
 
 @app.route('/trolley')
 def trolley():
