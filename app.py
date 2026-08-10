@@ -1,3 +1,4 @@
+#for activating venv: `.\venv\Scripts\activate`
 import sqlite3
 
 from flask import Flask, g, render_template, request, flash, session, redirect
@@ -43,6 +44,8 @@ def home():
 
 
 def query_db(query, args=(), one=False):
+    db = get_db()
+    db.row_factory = sqlite3.Row
     cursor = get_db().execute(query, args)
     rv = cursor.fetchall()
     cursor.close()
@@ -84,27 +87,27 @@ def catergory(item_type):
 #login function
 @app.route('/login', methods=["GET", "POST"])
 def user_login():
-    #if a user submits their form
     if request.method == "POST":
-        username = request.form['username']
+        # Form inputs
+        user_input = request.form['username']
         password = request.form['password']
         
-        #fetch user from database
-        sql = "SELECT * FROM User WHERE username = ?"
-        user = query_db(sql, args=(username,), one=True)
+        # getting user by ID
+        sql = "SELECT * FROM User WHERE ID = ?"
+        user = query_db(sql, args=(user_input,), one=True)
         
-        #Check if user exists and if password hash matches
-        if user and check_password_hash(user['password'], password):
-            #store identifier in session
-            session['user_id'] = user['id']
-            session['username'] = user['username']
+        #Check if user exists and checks password
+        if user and check_password_hash(user['password_hash'], password):
+            #Store IDs/Details in session using column names
+            session['user_id'] = user['ID']
+            session['first_name'] = user['first_name']
+            session['last_name'] = user['last_name']
             
             flash("Logged in successfully!")
             return redirect('/')
         else:
-            flash("Invalid username or password.")
+            flash("Invalid ID or password.")
 
-    #goes back to login page
     return render_template('login.html')
 
 """
@@ -133,8 +136,8 @@ def trolley():
 
 @app.route('/logout')
 def logout():
-    #just clear the username from the session and redirect back to the home page
-    session['user'] = None
+    #clearing the session
+    session.clear()
     return redirect('/')
 
 if __name__ == "__main__":

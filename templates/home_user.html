@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
+  <!--stylesheets and font-->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +22,23 @@
           <input type="text" placeholder="Search here...">
           <span class="material-symbols-outlined">search</span>
         </div>
-        <div class="top-right"><a href="/login">Log in</a></div>
+        <!--If there is an active session-->
+        {% if session.get('user_id') %}
+        <!--pop up for account settings-->
+        <!--if p is clicked, run the javascript function OpenAccountmanage-->
+          <a class ="top-right" onclick= "OpenAccountmanage();return false;" id="accountpopup" href="#" >Hi {{ session['first_name'] }}!</a>
+          <!--popup for more options-->
+          <div id="popup" class="popup">
+            <div class="popup-content">
+
+              <a href="{{ url_for('logout') }}">Account Settings</a>
+              <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+          </div>
+        {% else %}
+        <!--login link-->
+          <div class="top-right"><a href="{{ url_for('user_login') }}">Log in</a></div>
+        {% endif %}
       </div>
     </div>
 
@@ -64,5 +81,8 @@
     </div>
   </main>
 
+  <!--javascript file-->
+  <script src="{{ url_for('static', filename='js/home_user.js') }}"></script>
 </body>
+
 </html>

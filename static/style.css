@@ -45,13 +45,43 @@ body {
 .top-right {
   display: flex;
   justify-content: flex-end; 
-  align-items: center; 
+  align-items: center;
+  color: white;
+  font-size: 20px;
 }
-.top-right a {
+.top-right  a {
   color: white;
   font-size: 20px;
   text-decoration: none;
 }
+
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: white;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content {
+    background: white;
+    font-size: 20px;
+    width: 300px;
+    padding: 30px;
+    margin: 10px auto;
+}
+
+
+.popup-content a {
+    display: block;
+    margin: 10px;
+}
+
+
 /* Search Input */
 .search-container {
   display: flex;
