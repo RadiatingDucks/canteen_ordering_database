@@ -1,4 +1,4 @@
-#for activating venv: `.\venv\Scripts\activate`
+#for activating venv: .\venv\Scripts\activate
 import sqlite3
 
 from flask import Flask, g, render_template, request, flash, session, redirect
@@ -110,24 +110,51 @@ def user_login():
 
     return render_template('login.html')
 
-"""
-@app.route('/signup', methods=["GET","POST"])
+
+@app.route('/signup', methods=["GET", "POST"])
 def signup():
-    #if the user posts from the signup page
+
     if request.method == "POST":
-        #add the new username and hashed password to the database
-        username = request.form['username']
+
+        # Get information from the form
+        user_id = request.form['ID']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
         password = request.form['password']
-        #hash it with the cool secutiry function
+        confirm_password = request.form['confirm_password']
+
+        # Check that passwords match
+        if password != confirm_password:
+            flash("Passwords do not match.")
+            return render_template('signup.html')
+
+        # Hash the password
         hashed_password = generate_password_hash(password)
-        #write it as a new user to the database
-        sql = "INSERT INTO user (username,password) VALUES (?,?)"
-        query_db(sql,(username,hashed_password))
-        #message flashes exist in the base.html template and give user feedback
-        flash("Sign Up Successful")
+
+        # Add user to database
+        db = get_db()
+
+        try:
+            db.execute(
+                """
+                INSERT INTO User (ID, first_name, last_name, password_hash)
+                VALUES (?, ?, ?, ?)
+                """,
+                (user_id, first_name, last_name, hashed_password)
+            )
+
+            db.commit()
+
+        except sqlite3.IntegrityError:
+            flash("That ID is already registered.")
+            return render_template('signup.html')
+
+        flash("Sign up successful! You can now log in.")
+        return redirect('/login')
+
     return render_template('signup.html')
 
-"""
+
 
 
 @app.route('/trolley')
