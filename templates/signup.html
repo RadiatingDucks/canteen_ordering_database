@@ -4,49 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
     <title>Sign Up</title>
 </head>
 
 <body>
+    <main class="signup-wrapper">
+        <div class="signup-card">
+            <h1>Create an Account</h1>
 
-    <h1>Create an Account</h1>
+            <form method="POST">
+                <div class= "input">
+                    <label for="ID">Student ID</label>
+                    <input type="text" id="ID" placeholder="E.g. 21345" name="ID" required>
+                </div>
 
-    <form method="POST">
+                <div class="input">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" placeholder="First name" name="first_name" required>
+                </div>
 
-        <label for="ID">Student ID:</label>
-        <input type="text" id="ID" name="ID" required>
+                <div class="input">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" placeholder="Last name" name="last_name" required>
+                </div>
 
-        <br><br>
+                <div class="input">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Password" name="password" required>
+                </div>
 
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required>
+                <div class="input">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" placeholder="Confirm pasword" name="confirm_password" required>
+                </div>
 
-        <br><br>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <p class=flashes>
+                        {% for message in messages %}
+                        {{ message }}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    {% endwith %}
+                {% block body %}{% endblock %}
 
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required>
+                <button class="signup-button" type="submit">Sign Up</button>
 
-        <br><br>
+            </form>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <br><br>
-
-        <label for="confirm_password">Confirm Password:</label>
-        <input type="password" id="confirm_password" name="confirm_password" required>
-
-        <br><br>
-
-        <button type="submit">Sign Up</button>
-
-    </form>
-
-    <p>
-        Already have an account?
-        <a href="{{ url_for('user_login') }}">Log in</a>
-    </p>
+            <p class="login-instead">
+                Already have an account?
+                <a href="{{ url_for('user_login') }}">Log in</a>
+            </p>
+        </div>
+    </main>
 
 </body>
 </html>

@@ -17,13 +17,13 @@ body {
 }
 
 /* Container Wrapper */
-.login-wrapper {
+.signup-wrapper {
   width: 100%;
   padding: 20px;
 }
 
 /* The Login Card Box */
-.login-card {
+.signup-card {
   max-width: 400px; /* Controls exact maximum width on big screens */
   width: 100%;       /* Expands naturally on small mobile screens */
   margin: 0 auto;    /* Backup horizontal centering */
@@ -71,22 +71,8 @@ form {
   border-color: #f05a28;
 }
 
-p{
-  color: red;
-}
-
-.signup-instead {
-  margin-top: 15px;
-  color:#3b2f2f;
-}
-
-.signup-instead a{
-  margin-top: 15px;
-  color:#f05a28;
-}
-
 /* Submit Button */
-.login-btn {
+.signup-button {
   margin-top: 10px;
   padding: 12px;
   background-color: #f05a28;
@@ -99,6 +85,20 @@ p{
   transition: background 0.2s ease-in-out;
 }
 
-.login-btn:hover {
+.signup-button:hover {
   background-color: #d84b1d;
+}
+
+p{
+  color:red;
+}
+
+.login-instead {
+  margin-top: 15px;
+  color:#3b2f2f;
+}
+
+.login-instead a{
+  margin-top: 15px;
+  color:#f05a28;
 }
