@@ -19,8 +19,12 @@
       <div class="container top-bar-content">
         <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
         <div class="search-container">
-          <input type="text" placeholder="Search here...">
-          <span class="material-symbols-outlined">search</span>
+          <form class="search-container" method="GET" action="{{ url_for('search') }}">
+            <input type="text" placeholder="Search..." name="query">
+            <button type="submit">
+              <span class="material-symbols-outlined">search</span>
+            </button>
+          </form>
         </div>
         <!--If there is an active session-->
         {% if session.get('user_id') %}
@@ -58,7 +62,15 @@
 
   <main class="container">
     <a class="filter" href="#">Filter by:</a>
-    <h1>{{category_name}}</h1>
+    <h1>
+      {% if search_query %}
+          Search results for "{{ search_query }}"
+      {% elif catergory_name %}
+          {{ catergory_name }}
+      {% else %}
+          Menu
+      {% endif %}
+    </h1>
 
     <div class="menu-grid">
       {% for item in menu_items %}

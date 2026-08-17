@@ -154,7 +154,29 @@ def signup():
 
     return render_template('signup.html')
 
+# route for the search bar
+@app.route('/search')
+def search():
+    #asks for the query through the query-string arguements
+    search_query = request.args.get('query', '')
 
+    #SQL code that asks for a item_name like search_query
+    sql = """
+        SELECT item_name, item_ID, item_type, price, is_available, item_photo
+        FROM Menu
+        WHERE is_available = 1
+        AND item_name LIKE ?
+    """
+
+    results = query_db(sql, ('%' + search_query + '%',))
+
+    #returns to same template as home_user.html since layout is the same
+    return render_template(
+        'home_user.html',
+        menu_items=results,
+        #displays search query
+        search_query=search_query
+    )
 
 
 @app.route('/trolley')
