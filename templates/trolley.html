@@ -1,40 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<header>
-    <title>Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <!--font-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
-    <div class="top-bar">
-        <div class="top-left">Burnside <b>Canteen</b></div>
-        <div class="top-right"><a href="/login">Log in</a></div>
-    </div>
-
-  <!-- 2. Main Header -->
-  <div class="main-header">
-    <div class="container">
-      <div class="logo"><a href="{{ url_for('home') }}">Canteen</a></div>
-      <div class="search-container">
-        <input type="text" placeholder="Search here...">
-        <span class="material-symbols-outlined">search</span>
-      </div>
-      <div class="cart"><a href="{{ url_for('trolley') }}">🛒 $0.00</a></div>
-    </div>
-  </div>
-
-  <nav class="bottom-nav">
-        <a href="#">Main</a>
-        <a href="#">Side</a>
-        <a href="#">Drinks</a>
-        <a class="filter" href="#">Filter by:</a>
-  </nav>
-
-</header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <!--stylesheets and font-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
+</head>
 <body>
 
+  <header>
+    <div class="top-bar">
+      <div class="container top-bar-content">
+        <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
+        <div class="search-container">
+          <form class="search-container" method="GET" action="{{ url_for('search') }}">
+            <input type="text" placeholder="Search..." name="query">
+            <button type="submit">
+              <span class="material-symbols-outlined">search</span>
+            </button>
+          </form>
+        </div>
+        <!--If there is an active session-->
+        {% if session.get('user_id') %}
+        <!--pop up for account settings-->
+        <!--if p is clicked, run the javascript function OpenAccountmanage-->
+          <a class ="top-right" onclick= "OpenAccountmanage();return false;" id="accountpopup" href="#" >Hi {{ session['first_name'] }}!</a>
+          <!--popup for more options-->
+          <div id="popup" class="popup">
+            <div class="popup-content">
 
+              <a href="{{ url_for('logout') }}">Account Settings</a>
+              <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+          </div>
+        {% else %}
+        <!--login link-->
+          <div class="top-right"><p><a href="{{ url_for('user_login') }}">Log in</a> / <a href="{{ url_for('signup') }}">Sign up</a></p></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <div class="container nav-content">
+        <div class="nav-links">
+          <a href="{{ url_for('catergory', item_type='Main') }}">Main</a>
+          <a href="{{ url_for('catergory', item_type='Side') }}">Side</a>
+          <a href="{{ url_for('catergory', item_type='Drink') }}">Drinks</a>
+        </div>
+        <div class="cart">
+          <a href="{{ url_for('trolley') }}">🛒 $0.00</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!--if statement checking if user is logged in-->
+  
+  <!--if user is logged in-->
+  {% if session.get('user_id') %}
+  <!--if user is not logged in-->
+  {% else %}
+
+  {% endif %}
 </body>
-</html>
