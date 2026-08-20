@@ -82,32 +82,55 @@ body {
 }
 
 
-/* Search Input */
+/* Container */
 .search-container {
   display: flex;
+  align-items: center; /* Vertically centers input and icon */
   flex-grow: 1;
   max-width: 500px;
-  background: white;
+  background: #ffffff;
   border-radius: 20px;
   overflow: hidden;
-  align-self: center;
-  margin: 0px 20px;
+  margin: 0 20px;
 }
 
+/* Input Overrides */
 .search-container input {
   flex-grow: 1;
   border: none;
-  padding: 10px;
+  padding: 10px 15px;
   outline: none;
-  font-size: 20px;
+  font-size: 18px;
+  background: transparent; /* Fixes browser default blue/grey tint */
+  text-transform: none; /* Keeps search typing natural instead of UPPERCASE */
+  -webkit-appearance: none; /* Removes native browser search styling */
+  appearance: none;
 }
 
-.material-symbols-outlined {
-  margin-top: 6px;
-  margin-right: 5px;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 32;
-  font-size: 32px !important;
+.search-btn {
+  background: transparent;
+  border: none;
+  height: 100%;
+  padding: 0 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
 }
+
+.search-btn:hover{
+  transform: scale(1.2);
+}
+
+/* Search Icon */
+.material-symbols-outlined {
+  margin: 0 12px 0 0; /* Clear hardcoded top margin to let flexbox center it */
+  font-size: 24px !important;
+  color: #3b2f2f;
+  cursor: pointer;
+}
+
 
 /* --- BOTTOM NAVIGATION BAR --- */
 .bottom-nav {

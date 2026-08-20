@@ -18,14 +18,12 @@
     <div class="top-bar">
       <div class="container top-bar-content">
         <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
-        <div class="search-container">
-          <form class="search-container" method="GET" action="{{ url_for('search') }}">
-            <input type="text" placeholder="Search..." name="query">
-            <button type="submit">
-              <span class="material-symbols-outlined">search</span>
-            </button>
-          </form>
-        </div>
+        <form class="search-container" method="GET" action="{{ url_for('search') }}">
+          <input type="text" placeholder="Search..." name="query" autocomplete="off">
+          <button type="submit" class="search-btn">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+        </form>
         <!--If there is an active session-->
         {% if session.get('user_id') %}
         <!--pop up for account settings-->
