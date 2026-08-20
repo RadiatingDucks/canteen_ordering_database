@@ -29,7 +29,7 @@
         <!--If there is an active session-->
         {% if session.get('user_id') %}
         <!--pop up for account settings-->
-        <!--if p is clicked, run the javascript function OpenAccountmanage-->
+        <!--if link is clicked, run the javascript function OpenAccountmanage-->
           <a class ="top-right" onclick= "OpenAccountmanage();return false;" id="accountpopup" href="#" >Hi {{ session['first_name'] }}!</a>
           <!--popup for more options-->
           <div id="popup" class="popup">
@@ -83,7 +83,26 @@
           <div class="price_row">
             <span class="price">${{ "%.2f" |format(item.price) }}</span>
             {% if item.is_available %}
-              <button class="add-btn">Add</button>
+            <!-- Quantity button -->
+              <div class="qty-container">
+                <input 
+                  type="number" 
+                  id="qty-{{ item.item_ID }}" 
+                  class="qty-input" 
+                  value="1" 
+                  min="1"
+                >
+                <span class="qty-unit">ea</span>
+              </div>
+              <!--add button which passes info to javascript function addItemToTrolley()-->
+              <button 
+                data-item-id="{{ item.item_ID }}" 
+                data-item-amount="qty-{{ item.item_ID }}"
+                onclick="addItemToTrolley(this.dataset.itemId,document.getElementById(this.dataset.itemAmount).value)" 
+                class="add-btn"
+              >
+                Add
+              </button>
             {% else %}
               <span class="out-of-stock">Out of Stock</span>
             {% endif %}

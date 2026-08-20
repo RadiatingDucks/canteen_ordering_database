@@ -88,11 +88,12 @@ body {
   flex-grow: 1;
   max-width: 500px;
   background: white;
-  border-radius: 4px;
+  border-radius: 20px;
   overflow: hidden;
   align-self: center;
   margin: 0px 20px;
 }
+
 .search-container input {
   flex-grow: 1;
   border: none;
@@ -100,6 +101,7 @@ body {
   outline: none;
   font-size: 20px;
 }
+
 .material-symbols-outlined {
   margin-top: 6px;
   margin-right: 5px;
@@ -243,6 +245,69 @@ h1 {
 .price {
   color: #3b2f2f;
   font-weight: bold;
+  font-size: 23px;
+}
+
+.qty-container {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid #3b2f2f;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #fff;
+  height: 32px;
+}
+
+.qty-input {
+  width: 36px;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+}
+
+/* Remove default number arrows across all browsers */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-input[type=number] {
+  -webkit-appearance: textfield; /* Safari/Chrome prefix */
+  -moz-appearance: textfield;    /* Firefox prefix */
+  appearance: textfield;         /* Standard property */
+}
+
+.qty-unit {
+  padding: 0 6px;
+  border-left: 1.5px solid #3b2f2f;
+  color: #777;
+  font-size: 12px;
+  font-family: sans-serif;
+  text-transform: lowercase;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.add-btn {
+  background-color: #f05a28;
+  color: white;
+  border: none;
+  padding: 0 12px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-btn {
