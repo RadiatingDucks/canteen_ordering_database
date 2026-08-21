@@ -68,4 +68,43 @@
   {% else %}
 
   {% endif %}
+
+    <main class="container">
+
+        <h1>Trolley</h1>
+
+
+        {% if trolley_items %}
+
+            {% for item in trolley_items %}
+
+                <div class="trolley-item">
+
+                    <img src="{{ url_for('static', filename='images/' + item.item_photo) }}" alt="{{ item.item_name }}">
+                    <div>
+                        <h2>{{ item.item_name }}</h2>
+                        <p>${{ "%.2f"|format(item.price) }} each</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Subtotal: ${{ "%.2f"|format(item.price * item.quantity) }}</p>
+
+                        <button data-item-id="{{ item.item_ID }}" onclick="removeItemFromTrolley(this.dataset.itemId)">Remove</button>
+                    </div>
+                </div>
+                <hr>
+
+            {% endfor %}
+
+
+            <h2>Total: ${{ "%.2f"|format(total) }}</h2>
+
+            <button>Checkout</button>
+        {% else %}
+            <p>Your trolley is empty.</p>
+        {% endif %}
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/home_user.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/trolley.js') }}"></script>
+
 </body>

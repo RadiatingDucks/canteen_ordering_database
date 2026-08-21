@@ -178,10 +178,167 @@ def search():
         search_query=search_query
     )
 
+@app.route('/add_to_trolley', methods=['POST'])
+def add_to_trolley():
+    print("ADD TO TROLLEY ROUTE CALLED")
+    # Make sure the user is logged in
+    if 'user_id' not in session:
+        return {
+            'success': False,
+            'message': 'You must be logged in.'
+        }, 401
+
+    # Get information sent by JavaScript
+    data = request.get_json()
+
+    item_ID = data.get('item_ID')
+    quantity = int(data.get('quantity', 1))
+
+    # Make sure quantity is valid
+    if quantity < 1:
+        return {
+            'success': False,
+            'message': 'Invalid quantity.'
+        }, 400
+
+    user_ID = session['user_id']
+
+    db = get_db()
+    db.row_factory = sqlite3.Row
+
+    # Check that the item actually exists and is available
+    item = db.execute(
+        """
+        SELECT item_ID
+        FROM Menu
+        WHERE item_ID = ?
+        AND is_available = 1
+        """,
+        (item_ID,)
+    ).fetchone()
+
+    if item is None:
+        return {
+            'success': False,
+            'message': 'Item is not available.'
+        }, 400
+
+    # Check whether the item is already in the trolley
+    existing_item = db.execute(
+        """
+        SELECT quantity
+        FROM Trolley
+        WHERE user_ID = ?
+        AND item_ID = ?
+        """,
+        (user_ID, item_ID)
+    ).fetchone()
+
+    if existing_item:
+
+        # Item already exists → increase quantity
+        db.execute(
+            """
+            UPDATE Trolley
+            SET quantity = quantity + ?
+            WHERE user_ID = ?
+            AND item_ID = ?
+            """,
+            (quantity, user_ID, item_ID)
+        )
+
+    else:
+
+        # Item isn't in trolley → create new row
+        db.execute(
+            """
+            INSERT INTO Trolley
+            (user_ID, item_ID, quantity)
+            VALUES (?, ?, ?)
+            """,
+            (user_ID, item_ID, quantity)
+        )
+
+    db.commit()
+
+    return {
+        'success': True,
+        'message': 'Item added to trolley!'
+    }
+
+@app.route('/remove_from_trolley', methods=['POST'])
+def remove_from_trolley():
+
+    if 'user_id' not in session:
+        return {
+            'success': False,
+            'message': 'You must be logged in.'
+        }, 401
+
+    data = request.get_json()
+
+    item_ID = data.get('item_ID')
+    user_ID = session['user_id']
+
+    db = get_db()
+
+    db.execute(
+        """
+        DELETE FROM Trolley
+        WHERE user_ID = ?
+        AND item_ID = ?
+        """,
+        (user_ID, item_ID)
+    )
+
+    db.commit()
+
+    return {
+        'success': True,
+        'message': 'Item removed from trolley.'
+    }
+
 
 @app.route('/trolley')
 def trolley():
-    return render_template('trolley.html')
+
+    # Make sure user is logged in
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    user_ID = session['user_id']
+
+    db = get_db()
+    db.row_factory = sqlite3.Row
+
+    trolley_items = db.execute(
+        """
+        SELECT
+            Trolley.trolley_ID,
+            Trolley.item_ID,
+            Trolley.quantity,
+            Menu.item_name,
+            Menu.price,
+            Menu.item_photo
+        FROM Trolley
+        JOIN Menu
+            ON Trolley.item_ID = Menu.item_ID
+        WHERE Trolley.user_ID = ?
+        """,
+        (user_ID,)
+    ).fetchall()
+
+    # Calculate total price
+    total = sum(
+        item['price'] * item['quantity']
+        for item in trolley_items
+    )
+
+    return render_template(
+        'trolley.html',
+        trolley_items=trolley_items,
+        total=total
+    )
 
 @app.route('/logout')
 def logout():

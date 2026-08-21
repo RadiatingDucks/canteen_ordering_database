@@ -1,3 +1,5 @@
+console.log("home_user.js has loaded!");
+
 function OpenAccountmanage() {
     document.getElementById("popup").style.display = "block";
 }
@@ -14,3 +16,9 @@ document.addEventListener("click", function(event) {
         CloseAccountmanage();
     }
 });
+
+function testButton(button) {
+    console.log("BUTTON WORKED");
+    console.log(button.dataset.itemId);
+    console.log(button.dataset.itemAmount);
+}

@@ -59,16 +59,16 @@
   </header>
 
   <main class="container">
-    <a class="filter" href="#">Filter by:</a>
     <h1>
       {% if search_query %}
           Search results for "{{ search_query }}"
-      {% elif catergory_name %}
-          {{ catergory_name }}
+      {% elif category_name %}
+          {{ category_name }}
       {% else %}
           Menu
       {% endif %}
     </h1>
+    <a class="filter" href="#">Filter by:</a>
 
     <div class="menu-grid">
       {% for item in menu_items %}
@@ -96,9 +96,9 @@
               <button 
                 data-item-id="{{ item.item_ID }}" 
                 data-item-amount="qty-{{ item.item_ID }}"
-                onclick="addItemToTrolley(this.dataset.itemId,document.getElementById(this.dataset.itemAmount).value)" 
+                onclick="addItemToTrolley(testbutton(this))" 
                 class="add-btn"
-              >
+              > <!--this.dataset.itemId,document.getElementById(this.dataset.itemAmount).value-->
                 Add
               </button>
             {% else %}
@@ -112,6 +112,7 @@
 
   <!--javascript file-->
   <script src="{{ url_for('static', filename='js/home_user.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/trolley.js') }}"></script>
 </body>
 
 </html>
