@@ -40,7 +40,7 @@ def home():
     cursor.execute(sql)
     results = cursor.fetchall()
 
-    return render_template("home_user.html", menu_items=results)
+    return render_template("home_user.html", menu_items=results, total=get_trolley_total())
 
 
 def query_db(query, args=(), one=False):
@@ -66,7 +66,7 @@ def item(item_ID):
 
     result = cursor.fetchone() 
     
-    return render_template("item_display.html", item=result)
+    return render_template("item_display.html", item=result, total=get_trolley_total())
 
 
 @app.route('/home/<string:item_type>')
@@ -82,7 +82,7 @@ def catergory(item_type):
 
     result = cursor.fetchall()
 
-    return render_template("home_user.html", menu_items=result, category_name=item_type)
+    return render_template("home_user.html", menu_items=result, category_name=item_type, total=get_trolley_total())
 
 #login function
 @app.route('/login', methods=["GET", "POST"])
@@ -175,12 +175,12 @@ def search():
         'home_user.html',
         menu_items=results,
         #displays search query
-        search_query=search_query
+        search_query=search_query,
+        total=get_trolley_total()
     )
 
 @app.route('/add_to_trolley', methods=['POST'])
 def add_to_trolley():
-    print("ADD TO TROLLEY ROUTE CALLED")
     # Make sure the user is logged in
     if 'user_id' not in session:
         return {
@@ -339,6 +339,26 @@ def trolley():
         trolley_items=trolley_items,
         total=total
     )
+
+def get_trolley_total():
+    if 'user_id' not in session:
+        return 0.0
+
+    user_ID = session['user_id']
+    db = get_db()
+    db.row_factory = sqlite3.Row
+
+    trolley_items = db.execute(
+        """
+        SELECT Menu.price, Trolley.quantity
+        FROM Trolley
+        JOIN Menu ON Trolley.item_ID = Menu.item_ID
+        WHERE Trolley.user_ID = ?
+        """,
+        (user_ID,)
+    ).fetchall()
+
+    return sum(item['price'] * item['quantity'] for item in trolley_items)
 
 @app.route('/logout')
 def logout():

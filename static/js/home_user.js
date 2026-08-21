@@ -16,9 +16,3 @@ document.addEventListener("click", function(event) {
         CloseAccountmanage();
     }
 });
-
-function testButton(button) {
-    console.log("BUTTON WORKED");
-    console.log(button.dataset.itemId);
-    console.log(button.dataset.itemAmount);
-}
