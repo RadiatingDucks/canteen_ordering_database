@@ -181,122 +181,110 @@ def search():
 
 @app.route('/add_to_trolley', methods=['POST'])
 def add_to_trolley():
-    # Make sure the user is logged in
     if 'user_id' not in session:
-        return {
-            'success': False,
-            'message': 'You must be logged in.'
-        }, 401
+        return {'success': False, 'message': 'You must be logged in.'}, 401
 
-    # Get information sent by JavaScript
     data = request.get_json()
-
     item_ID = data.get('item_ID')
     quantity = int(data.get('quantity', 1))
 
-    # Make sure quantity is valid
     if quantity < 1:
-        return {
-            'success': False,
-            'message': 'Invalid quantity.'
-        }, 400
+        return {'success': False, 'message': 'Invalid quantity.'}, 400
 
     user_ID = session['user_id']
-
     db = get_db()
     db.row_factory = sqlite3.Row
 
-    # Check that the item actually exists and is available
+    # Verify item availability
     item = db.execute(
-        """
-        SELECT item_ID
-        FROM Menu
-        WHERE item_ID = ?
-        AND is_available = 1
-        """,
+        "SELECT item_ID FROM Menu WHERE item_ID = ? AND is_available = 1",
         (item_ID,)
     ).fetchone()
 
     if item is None:
-        return {
-            'success': False,
-            'message': 'Item is not available.'
-        }, 400
+        return {'success': False, 'message': 'Item is not available.'}, 400
 
-    # Check whether the item is already in the trolley
+    # Add or update item in trolley
     existing_item = db.execute(
-        """
-        SELECT quantity
-        FROM Trolley
-        WHERE user_ID = ?
-        AND item_ID = ?
-        """,
+        "SELECT quantity FROM Trolley WHERE user_ID = ? AND item_ID = ?",
         (user_ID, item_ID)
     ).fetchone()
 
     if existing_item:
-
-        # Item already exists → increase quantity
         db.execute(
-            """
-            UPDATE Trolley
-            SET quantity = quantity + ?
-            WHERE user_ID = ?
-            AND item_ID = ?
-            """,
+            "UPDATE Trolley SET quantity = quantity + ? WHERE user_ID = ? AND item_ID = ?",
             (quantity, user_ID, item_ID)
         )
-
     else:
-
-        # Item isn't in trolley → create new row
         db.execute(
-            """
-            INSERT INTO Trolley
-            (user_ID, item_ID, quantity)
-            VALUES (?, ?, ?)
-            """,
+            "INSERT INTO Trolley (user_ID, item_ID, quantity) VALUES (?, ?, ?)",
             (user_ID, item_ID, quantity)
         )
 
     db.commit()
 
+    # Calculate the new overall total to send back
+    trolley_items = db.execute(
+        """
+        SELECT Menu.price, Trolley.quantity
+        FROM Trolley
+        JOIN Menu ON Trolley.item_ID = Menu.item_ID
+        WHERE Trolley.user_ID = ?
+        """,
+        (user_ID,)
+    ).fetchall()
+
+    new_total = sum(item['price'] * item['quantity'] for item in trolley_items)
+
     return {
         'success': True,
-        'message': 'Item added to trolley!'
+        'message': 'Item added to trolley!',
+        'new_total': new_total  # Send new total back to JavaScript
     }
 
 @app.route('/remove_from_trolley', methods=['POST'])
 def remove_from_trolley():
-
     if 'user_id' not in session:
-        return {
-            'success': False,
-            'message': 'You must be logged in.'
-        }, 401
+        return {'success': False, 'message': 'You must be logged in.'}, 401
 
     data = request.get_json()
-
     item_ID = data.get('item_ID')
     user_ID = session['user_id']
 
     db = get_db()
 
+    # Delete the item
     db.execute(
         """
         DELETE FROM Trolley
-        WHERE user_ID = ?
-        AND item_ID = ?
+        WHERE user_ID = ? AND item_ID = ?
         """,
         (user_ID, item_ID)
     )
-
     db.commit()
+
+    # Calculate remaining total
+    db.row_factory = sqlite3.Row
+    trolley_items = db.execute(
+        """
+        SELECT Menu.price, Trolley.quantity
+        FROM Trolley
+        JOIN Menu ON Trolley.item_ID = Menu.item_ID
+        WHERE Trolley.user_ID = ?
+        """,
+        (user_ID,)
+    ).fetchall()
+
+    new_total = sum(item['price'] * item['quantity'] for item in trolley_items)
 
     return {
         'success': True,
-        'message': 'Item removed from trolley.'
+        'message': 'Item removed from trolley.',
+        'new_total': new_total,
+        'item_count': len(trolley_items)
     }
+
+
 
 
 @app.route('/trolley')
@@ -359,6 +347,7 @@ def get_trolley_total():
     ).fetchall()
 
     return sum(item['price'] * item['quantity'] for item in trolley_items)
+
 
 @app.route('/logout')
 def logout():

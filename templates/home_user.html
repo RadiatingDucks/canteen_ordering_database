@@ -52,7 +52,7 @@
           <a href="{{ url_for('catergory', item_type='Drink') }}">Drinks</a>
         </div>
         <div class="cart">
-          <a href="{{ url_for('trolley') }}">🛒 ${{ "%.2f"|format(total) }}</a>
+          <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
         </div>
       </div>
     </nav>

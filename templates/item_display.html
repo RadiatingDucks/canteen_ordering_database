@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>{{ item.item_name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='item_display.css') }}">
     
@@ -18,11 +18,25 @@
       <div class="top-bar">
         <div class="container top-bar-content">
           <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
-          <div class="search-container">
-            <input type="text" placeholder="Search here...">
-            <span class="material-symbols-outlined">search</span>
-          </div>
-          <div class="top-right"><a href="/login">Log in</a></div>
+          
+          <form class="search-container" method="GET" action="{{ url_for('search') }}">
+            <input type="text" placeholder="Search..." name="query" autocomplete="off">
+            <button type="submit" class="search-btn">
+              <span class="material-symbols-outlined">search</span>
+            </button>
+          </form>
+
+          {% if session.get('user_id') %}
+            <a class="top-right" onclick="OpenAccountmanage();return false;" id="accountpopup" href="#">Hi {{ session['first_name'] }}!</a>
+            <div id="popup" class="popup">
+              <div class="popup-content">
+                <a href="{{ url_for('logout') }}">Account Settings</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+              </div>
+            </div>
+          {% else %}
+            <div class="top-right"><p><a href="{{ url_for('user_login') }}">Log in</a> / <a href="{{ url_for('signup') }}">Sign up</a></p></div>
+          {% endif %}
         </div>
       </div>
 
@@ -34,33 +48,42 @@
             <a href="{{ url_for('catergory', item_type='Drink') }}">Drinks</a>
           </div>
           <div class="cart">
-            <a href="{{ url_for('trolley') }}">🛒 ${{ "%.2f"|format(total) }}</a>
+            <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
           </div>
         </div>
       </nav>
     </header>
 
     <div class="bodyArrangement">
-      <img src="{{ url_for('static', filename = 'images/' + item.item_photo) }}" alt ="{{ item.item_name }}">
-      
+      <img src="{{ url_for('static', filename='images/' + item.item_photo) }}" alt="{{ item.item_name }}">
 
       {# item info #}
       <div class="price_and_information">
-        <h1>{{item.item_name}}</h1>
+        <h1>{{ item.item_name }}</h1>
+        
         <div class="price_quantity">
-            <!--formated the price to be 2d.p. with "%.2f" string formatting command-->
-            <span class="price">${{ "%.2f" |format(item.price) }}</span>
-            
-            <!--if statement with different thing showing based on whether item is stocked-->
-            {% if item.is_available %}
-                <button class="add-btn">Add</button>
-            {% else %}
-                <span class="out-of-stock">Out of Stock</span>
-            {% endif %}
+          <span class="price">${{ "%.2f"|format(item.price) }}</span>
+          
+          {% if item.is_available %}
+            <div class="qty-container">
+              <input type="number" id="qty-{{ item.item_ID }}" class="qty-input" value="1" min="1">
+              <span class="qty-unit">ea</span>
+            </div>
+
+            <button type="button" 
+                    data-item-id="{{ item.item_ID }}" 
+                    data-item-amount="qty-{{ item.item_ID }}" 
+                    onclick="addItemToTrolley(this.dataset.itemId, document.getElementById(this.dataset.itemAmount).value)" 
+                    class="add-btn">
+              Add
+            </button>
+          {% else %}
+            <span class="out-of-stock">Out of Stock</span>
+          {% endif %}
         </div>
         
         <!--description of the food item-->
-        <div class = "itemDescription">
+        <div class="itemDescription">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
             <br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
@@ -69,5 +92,9 @@
         </div>
       </div>
     </div>
+
+    <!-- JavaScript dependencies -->
+    <script src="{{ url_for('static', filename='js/home_user.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/trolley.js') }}"></script>
   </body>
 </html>

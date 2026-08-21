@@ -150,6 +150,79 @@
   text-decoration: none;
   border-radius: 6px;
 }
+/* Item Display Actions Section */
+.price_quantity {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.price_quantity .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #222;
+}
+
+/* Quantity Input Styling */
+.qty-container {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #f8f9fa;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.qty-input {
+  width: 55px;
+  padding: 0.35rem 0.2rem;
+  font-size: 1rem;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+}
+
+.qty-input:focus {
+  outline: none;
+}
+
+.qty-unit {
+  font-size: 0.9rem;
+  color: #666;
+  user-select: none;
+}
+
+/* Add Button Styling */
+.add-btn {
+  padding: 0.65rem 1.4rem;
+  background-color: #f05a28;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-btn:hover {
+  background-color: #e35121;
+}
+
+.add-btn:active {
+  transform: scale(0.98);
+}
+
+.out-of-stock {
+  color: #d9534f;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
