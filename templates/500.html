@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>500 Error</title>
+  <!--stylesheets and font-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='error.css') }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="container">
+    <h1>500 - Server Error</h1>
+    <p>Something went wrong on our end. Please try again in a moment.</p>
+    <a href="{{ url_for('home') }}" class="home-btn" >Back to Home</a>
+  </main>
+</body>
+</html>
