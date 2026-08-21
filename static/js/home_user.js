@@ -1,5 +1,3 @@
-console.log("home_user.js has loaded!");
-
 function OpenAccountmanage() {
     document.getElementById("popup").style.display = "block";
 }
@@ -12,7 +10,7 @@ document.addEventListener("click", function(event) {
     const popup = document.getElementById("popup")
     const accountLink = document.getElementById("accountpopup");
 
-    if (!popup.contains(event.target) && event.target != accountLink){
+    if (!popup.contains(event.target) && event.target !== accountLink){
         CloseAccountmanage();
     }
 });

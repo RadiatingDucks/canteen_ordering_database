@@ -1,4 +1,8 @@
 function addItemToTrolley(itemId, quantity) {
+    // Fallback to 1 if input is empty or invalid
+    const parsedQty = parseInt(quantity, 10);
+    const validQuantity = (isNaN(parsedQty) || parsedQty < 1) ? 1 : parsedQty;
+
     fetch('/add_to_trolley', {
         method: 'POST',
         headers: {
@@ -6,13 +10,12 @@ function addItemToTrolley(itemId, quantity) {
         },
         body: JSON.stringify({
             item_ID: itemId,
-            quantity: quantity
+            quantity: validQuantity
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Update the text on the page in real-time
             const cartLink = document.getElementById('cart-total-link');
             if (cartLink && data.new_total !== undefined) {
                 cartLink.innerText = `🛒 $${data.new_total.toFixed(2)}`;

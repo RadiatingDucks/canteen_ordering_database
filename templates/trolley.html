@@ -29,7 +29,6 @@
           <a class="top-right" onclick="OpenAccountmanage();return false;" id="accountpopup" href="#">Hi {{ session['first_name'] }}!</a>
           <div id="popup" class="popup">
             <div class="popup-content">
-              <a href="{{ url_for('logout') }}">Account Settings</a>
               <a href="{{ url_for('logout') }}">Logout</a>
             </div>
           </div>

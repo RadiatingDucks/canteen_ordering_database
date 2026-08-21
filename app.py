@@ -59,7 +59,7 @@ def item(item_ID):
     db.row_factory = sqlite3.Row 
     cursor = db.cursor()
 
-    sql = "SELECT item_name, item_ID, item_type, price, is_available, item_photo " \
+    sql = "SELECT item_name, item_ID, item_type, price, is_available, item_photo, item_description " \
           "FROM Menu WHERE is_available = 1 AND item_ID = ?;"
 
     cursor.execute(sql, (item_ID,)) 
@@ -93,7 +93,7 @@ def user_login():
         password = request.form['password']
         
         # getting user by ID
-        sql = "SELECT * FROM User WHERE ID = ?"
+        sql = "SELECT ID, password_hash, first_name, last_name FROM User WHERE ID = ?"
         user = query_db(sql, args=(user_input,), one=True)
         
         #Check if user exists and checks password
@@ -180,13 +180,19 @@ def search():
     )
 
 @app.route('/add_to_trolley', methods=['POST'])
+@app.route('/add_to_trolley', methods=['POST'])
 def add_to_trolley():
     if 'user_id' not in session:
         return {'success': False, 'message': 'You must be logged in.'}, 401
 
-    data = request.get_json()
+    data = request.get_json() or {}
     item_ID = data.get('item_ID')
-    quantity = int(data.get('quantity', 1))
+    
+    # Robust type conversion check
+    try:
+        quantity = int(data.get('quantity', 1))
+    except (ValueError, TypeError):
+        quantity = 1
 
     if quantity < 1:
         return {'success': False, 'message': 'Invalid quantity.'}, 400
@@ -195,7 +201,6 @@ def add_to_trolley():
     db = get_db()
     db.row_factory = sqlite3.Row
 
-    # Verify item availability
     item = db.execute(
         "SELECT item_ID FROM Menu WHERE item_ID = ? AND is_available = 1",
         (item_ID,)
@@ -204,7 +209,6 @@ def add_to_trolley():
     if item is None:
         return {'success': False, 'message': 'Item is not available.'}, 400
 
-    # Add or update item in trolley
     existing_item = db.execute(
         "SELECT quantity FROM Trolley WHERE user_ID = ? AND item_ID = ?",
         (user_ID, item_ID)
@@ -223,23 +227,13 @@ def add_to_trolley():
 
     db.commit()
 
-    # Calculate the new overall total to send back
-    trolley_items = db.execute(
-        """
-        SELECT Menu.price, Trolley.quantity
-        FROM Trolley
-        JOIN Menu ON Trolley.item_ID = Menu.item_ID
-        WHERE Trolley.user_ID = ?
-        """,
-        (user_ID,)
-    ).fetchall()
-
-    new_total = sum(item['price'] * item['quantity'] for item in trolley_items)
+    # Reuse helper function
+    new_total = get_trolley_total()
 
     return {
         'success': True,
         'message': 'Item added to trolley!',
-        'new_total': new_total  # Send new total back to JavaScript
+        'new_total': new_total
     }
 
 @app.route('/remove_from_trolley', methods=['POST'])
@@ -348,6 +342,14 @@ def get_trolley_total():
 
     return sum(item['price'] * item['quantity'] for item in trolley_items)
 
+#error handlers
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', total=get_trolley_total()), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html', total=get_trolley_total()), 500
 
 @app.route('/logout')
 def logout():
@@ -356,4 +358,4 @@ def logout():
     return redirect('/')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

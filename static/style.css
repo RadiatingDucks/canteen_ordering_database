@@ -324,7 +324,7 @@ h1 {
   background-color: #f05a28;
   color: white;
   border: none;
-  padding: 0 12px;
+  padding: 6px 12px;
   height: 32px;
   border-radius: 4px;
   cursor: pointer;
@@ -335,15 +335,6 @@ h1 {
   justify-content: center;
 }
 
-.add-btn {
-  background-color: #f05a28;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: 'Anton', sans-serif;
-}
 
 .add-btn.clicked {
   color: #e74c3c; /* Red */
