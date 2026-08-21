@@ -52,7 +52,7 @@
           <a href="{{ url_for('catergory', item_type='Drink') }}">Drinks</a>
         </div>
         <div class="cart">
-          <a href="{{ url_for('trolley') }}">🛒 $0.00</a>
+          <a href="{{ url_for('trolley') }}">🛒 ${{ "%.2f"|format(total) }}</a>
         </div>
       </div>
     </nav>
@@ -68,37 +68,34 @@
           Menu
       {% endif %}
     </h1>
-    <a class="filter" href="#">Filter by:</a>
 
     <div class="menu-grid">
-      {% for item in menu_items %}
+      {% for item in menu_items %} 
         <div class="product-box">
+          <!-- Group card details inside the link -->
           <a href="{{ url_for('item', item_ID=item.item_ID) }}" class="product-card-link">
             <h3>{{ item.item_name }}</h3>
-            <img src="{{ url_for('static', filename = 'images/' + item.item_photo) }}" alt="{{ item.item_name }}">
+            <div class="img-wrapper">
+              <img src="{{ url_for('static', filename='images/' + item.item_photo) }}" alt="{{ item.item_name }}">
+            </div>
+            <p class="category">{{ item.item_type }}</p>
           </a>
-          <p class="category">{{ item.item_type }}</p>
+
+          <!-- Keep the controls strictly outside the anchor tag -->
           <div class="price_row">
-            <span class="price">${{ "%.2f" |format(item.price) }}</span>
+            <span class="price">${{ "%.2f"|format(item.price) }}</span>
+
             {% if item.is_available %}
-            <!-- Quantity button -->
               <div class="qty-container">
-                <input 
-                  type="number" 
-                  id="qty-{{ item.item_ID }}" 
-                  class="qty-input" 
-                  value="1" 
-                  min="1"
-                >
+                <input type="number" id="qty-{{ item.item_ID }}" class="qty-input" value="1" min="1">
                 <span class="qty-unit">ea</span>
               </div>
-              <!--add button which passes info to javascript function addItemToTrolley()-->
-              <button 
-                data-item-id="{{ item.item_ID }}" 
-                data-item-amount="qty-{{ item.item_ID }}"
-                onclick="addItemToTrolley(testbutton(this))" 
-                class="add-btn"
-              > <!--this.dataset.itemId,document.getElementById(this.dataset.itemAmount).value-->
+
+              <button type="button" 
+                      data-item-id="{{ item.item_ID }}" 
+                      data-item-amount="qty-{{ item.item_ID }}" 
+                      onclick="addItemToTrolley(this.dataset.itemId, document.getElementById(this.dataset.itemAmount).value)" 
+                      class="add-btn">
                 Add
               </button>
             {% else %}
