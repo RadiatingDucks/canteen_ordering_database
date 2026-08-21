@@ -22,6 +22,8 @@ body {
   padding-right: 20px;
 }
 
+
+
 /* --- TOP BAR --- */
 .top-bar {
   background: #3b2f2f;
@@ -164,7 +166,7 @@ body {
 }
 
 .bottom-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  color: #f05a28;
 }
 
 .cart a{
@@ -172,20 +174,11 @@ body {
   padding: 12px 0px 12px 20px;
 }
 
-/* --- MAIN CONTENT & MENU GRID --- */
-.filter {
-  display: inline-block;
-  text-align: left;
-  margin: 0 0 20px 0;
-  color: #3b2f2f;
-  text-decoration: none;
-}
-
 h1 {
   font-weight: 700;
   font-style: normal;
   text-align: left;
-  margin: 25px 0 10px 0;
+  margin: 25px 0 20px 0;
   color: #3b2f2f;
 }
 .menu-grid {
@@ -197,24 +190,27 @@ h1 {
   width: 100%;
 }
 
+/*
 .product-card-link {
   text-decoration: none;
   display: block;
+}*/
+
+.product-card-link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Individual Product Cards */
+/* Product Box: Auto-height replaces static aspect-ratio */
 .product-box {
   background: #ffffff;
   border-radius: 8px;
   border: 2px solid transparent;
   text-align: left;
-  transition: transform 0.2s;
+  transition: transform 0.2s, border-color 0.2s;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  
-  /* Width fills the grid slot; aspect-ratio keeps proportions consistent */
   width: 100%;
-  aspect-ratio: 16 / 25; 
-  
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -224,37 +220,43 @@ h1 {
 .product-box:hover {
   transform: translateY(-2px);
   border-color: #f05a28;
-  border-width: 3px;
 }
 
-.product-box a{
-  display: contents;
+.product-card-link {
+  text-decoration: none;
+  display: block;
+  width: 100%;
 }
 
 .product-box h3 {
   color: #3b2f2f;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   text-align: left;
   margin: 0 0 8px 0;
-  padding: 0;
+  min-height: 44px; /* Keeps card heights uniform even with 1 or 2 line titles */
 }
 
-/* Image scales fluidly inside the flexbox card */
+/* Image Container ensures fixed image proportions without breaking parent height */
+.img-wrapper {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
 .product-box img {
   width: 100%;
-  flex-grow: 1; /* Allows image to shrink/grow with card size */
-  max-height: 60%;
+  height: auto;
+  display: block;
   object-fit: cover;
-  border-radius: 4px;
-  padding: 0;
-  margin-bottom: 8px;
 }
 
 .product-box .category {
   font-size: 0.8rem;
   color: #777;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 /* Price & Button Row */
