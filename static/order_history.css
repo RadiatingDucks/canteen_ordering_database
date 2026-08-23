@@ -1,0 +1,109 @@
+body{
+    text-transform: none;
+}
+
+.cart a{
+    margin-left: auto;
+    padding: 12px 0px 12px 20px;
+    text-decoration: none;
+    color: #f05a28;
+    font-weight: 400;
+    display: inline-block;
+    font-size: 24px;
+}
+
+
+.history-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
+
+.history-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 36px;
+  color: #3b2f2f;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+  text-decoration: underline;
+  text-decoration-color: #f05a28;
+  text-decoration-thickness: 5px;
+}
+
+.order-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Card Styling & Link Reset */
+.order-history-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  text-decoration: none; /* Removes purple underline */
+  color: #333333;       /* Overrides link blue/purple */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.order-history-card:hover {
+  border-color: #f05a28;
+  border-width: 2px;
+}
+
+.order-card-info h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 22px;
+  color: #333333;
+  margin: 0 0 8px 0;
+  text-decoration: none;
+}
+
+.order-card-info p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666666;
+}
+
+/* Badges */
+.status-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-badge.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* Right Side Totals */
+.order-card-total {
+  text-align: right;
+}
+
+.total-amount {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px;
+  color: #f05a28;
+  margin: 0 0 5px 0;
+}
+
+.view-link {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+}
