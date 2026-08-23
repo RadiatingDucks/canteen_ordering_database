@@ -1,4 +1,4 @@
-// fucntion that 
+// function that adds an item with a specified quantity to the trolley
 function addItemToTrolley(itemId, quantity) {
     // Parse input to integer
     let parsedQty = parseInt(quantity, 10);
@@ -11,6 +11,7 @@ function addItemToTrolley(itemId, quantity) {
         return;
     }
 
+    // send POST request to add item to trolley
     fetch('/add_to_trolley', {
         method: 'POST',
         headers: {
@@ -24,19 +25,22 @@ function addItemToTrolley(itemId, quantity) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            // update header cart link with new total price
             const cartLink = document.getElementById('cart-total-link');
             if (cartLink && data.new_total !== undefined) {
                 cartLink.innerText = `🛒 $${data.new_total.toFixed(2)}`;
             }
         } else {
+            // display error message if adding to trolley fails
             alert(data.message);
         }
     })
     .catch(error => console.error('Error adding to trolley:', error));
 }
 
-
+// function that removes an item from the trolley
 function removeItemFromTrolley(itemId) {
+    // send POST request to remove item from trolley
     fetch('/remove_from_trolley', {
         method: 'POST',
         headers: {
@@ -75,6 +79,7 @@ function removeItemFromTrolley(itemId) {
                 });
             }
         } else {
+            // display error message if removing item fails
             alert(data.message);
         }
     })
