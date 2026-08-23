@@ -49,13 +49,16 @@
       </div>
     </div>
 
+    <!--bottom nav bar-->
     <nav class="bottom-nav">
       <div class="container nav-content">
         <div class="nav-links">
+          <!--links for different categories-->
           <a href="{{ url_for('catergory', item_type='Main') }}">Main</a>
           <a href="{{ url_for('catergory', item_type='Side') }}">Side</a>
           <a href="{{ url_for('catergory', item_type='Drink') }}">Drinks</a>
         </div>
+        <!--cart button showing total price-->
         <div class="cart">
           <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
         </div>
@@ -64,36 +67,48 @@
   </header>
 
   <main class="container">
+    <!--dynamic heading based on search, category, or default menu-->
     <h1>
       {% if search_query %}
+          <!--displays search query and empty state message if no items match-->
           Search results for "{{ search_query }}"
             {% if not menu_items%}
               <p>No menu items found. Try searching for something else!</p>
             {% endif %}
       {% elif category_name %}
+          <!--displays category title-->
           {{ category_name }}
       {% else %}
+          <!--default page title-->
           Menu
       {% endif %}
     </h1>
 
+    <!--grid container for menu items-->
     <div class="menu-grid">
+      <!--loops through all available menu items-->
       {% for item in menu_items %} 
         <div class="product-box">
           <!-- Group card details inside the link -->
+          <!--link routing to item detail page-->
           <a href="{{ url_for('item', item_ID=item.item_ID) }}" class="product-card-link">
             <h3>{{ item.item_name }}</h3>
+            <!--item image wrapper-->
             <div class="img-wrapper">
               <img src="{{ url_for('static', filename='images/' + item.item_photo) }}" alt="{{ item.item_name }}">
             </div>
+            <!--item category tag-->
             <p class="category">{{ item.item_type }}</p>
           </a>
 
           <!-- Keep the controls strictly outside the anchor tag -->
+          <!--row containing price, quantity selector, and add button-->
           <div class="price_row">
             <span class="price">${{ "%.2f"|format(item.price) }}</span>
 
+            <!--check if item is in stock-->
             {% if item.is_available %}
+              <!--quantity input field allowing numbers 1-10-->
               <div class="qty-container">
                 <input type="number" 
                   id="qty-{{ item.item_ID }}" 
@@ -107,6 +122,7 @@
                 <span class="qty-unit">ea</span>
               </div>
 
+              <!--button running javascript function to add item to cart-->
               <button type="button" 
                       data-item-id="{{ item.item_ID }}" 
                       data-item-amount="qty-{{ item.item_ID }}" 
@@ -115,6 +131,7 @@
                 Add
               </button>
             {% else %}
+              <!--message displayed if item is unavailable-->
               <span class="out-of-stock">Out of Stock</span>
             {% endif %}
           </div>

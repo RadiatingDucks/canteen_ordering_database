@@ -3,42 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--stylesheets-->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
     <title>Sign Up</title>
 </head>
 
 <body>
+    <!--main signup page container-->
     <main class="signup-wrapper">
         <div class="signup-card">
             <h1>Create an Account</h1>
 
+            <!--signup form submitting POST request-->
             <form method="POST">
+                <!--student ID input field-->
                 <div class= "input">
                     <label for="ID">Student ID</label>
                     <input type="text" id="ID" placeholder="E.g. 21345" name="ID" required>
                 </div>
 
+                <!--first name input field-->
                 <div class="input">
                     <label for="first_name">First Name</label>
                     <input type="text" id="first_name" placeholder="First name" name="first_name" required>
                 </div>
 
+                <!--last name input field-->
                 <div class="input">
                     <label for="last_name">Last Name</label>
                     <input type="text" id="last_name" placeholder="Last name" name="last_name" required>
                 </div>
 
+                <!--password input field-->
                 <div class="input">
                     <label for="password">Password</label>
                     <input type="password" id="password" placeholder="Password" name="password" required>
                 </div>
 
+                <!--password confirmation input field-->
                 <div class="input">
                     <label for="confirm_password">Confirm Password</label>
                     <input type="password" id="confirm_password" placeholder="Confirm pasword" name="confirm_password" required>
                 </div>
 
+                <!--flash messages for form validation errors or alerts-->
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                     <p class=flashes>
@@ -47,12 +56,14 @@
                         {% endfor %}
                     </p>
                     {% endif %}
-                    {% endwith %}
+                {% endwith %}
 
+                <!--submit button for account creation-->
                 <button class="signup-button" type="submit">Sign Up</button>
 
             </form>
 
+            <!--link to login page for existing users-->
             <p class="login-instead">
                 Already have an account?
                 <a href="{{ url_for('user_login') }}">Log in</a>

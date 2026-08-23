@@ -4,40 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Canteen Login</title>
+  <!--stylesheets-->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
 <body>
 
-
+  <!--main login page container-->
   <main class="login-wrapper">
     <div class="login-card">
       <h1>Login</h1>
       
+      <!--login form submitting POST request to /login-->
       <form action="/login" method="post">
+        <!--student ID input field-->
         <div class="input">
           <label for="username">Student ID</label>
           <input type="text" id="username" placeholder="E.g. 21345" name="username" required>
         </div>
 
+        <!--password input field-->
         <div class="input">
           <label for="password">Password</label>
           <input type="Password" placeholder="password" id="password" name="password" required>
         </div>
 
-
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <p class=flashes>
-            {% for message in messages %}
-              {{ message }}
-            {% endfor %}
-          </p>
+        <!--flash messages for login errors or alerts-->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <p class=flashes>
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
+            </p>
           {% endif %}
         {% endwith %}
 
+        <!--submit button for login-->
         <button type="submit" class="login-btn">Login</button>
 
+        <!--link to signup page for new users-->
         <p class="signup-instead">
           Don't have an account?
           <a href="{{ url_for('signup') }}">Sign up</a>

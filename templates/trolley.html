@@ -5,46 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Trolley - Canteen</title>
   
+  <!--stylesheets and font-->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='trolley.css') }}">
+  <!--Anton family font-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <!--search icon-->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
 </head>
 <body>
 
   <header>
+    <!--items in the top bar-->
     <div class="top-bar">
       <div class="container top-bar-content">
+        <!--logo routed to home-->
         <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
+        <!--search bar which takes input and routes to search()-->
         <form class="search-container" method="GET" action="{{ url_for('search') }}">
+          <!--input as query-->
           <input type="text" placeholder="Search..." name="query" autocomplete="off">
+          <!--using search icon as a submit button-->
           <button type="submit" class="search-btn">
             <span class="material-symbols-outlined">search</span>
           </button>
         </form>
         
+        <!--If there is an active session-->
         {% if session.get('user_id') %}
+          <!--pop up for account settings-->
+          <!--if link is clicked, run the javascript function OpenAccountmanage-->
           <a class="top-right" onclick="OpenAccountmanage();return false;" id="accountpopup" href="#">Hi {{ session['first_name'] }}!</a>
+          <!--popup for more options-->
           <div id="popup" class="popup">
             <div class="popup-content">
               <a href="{{ url_for('logout') }}">Logout</a>
             </div>
           </div>
         {% else %}
+          <!--login link-->
           <div class="top-right"><p><a href="{{ url_for('user_login') }}">Log in</a> / <a href="{{ url_for('signup') }}">Sign up</a></p></div>
         {% endif %}
       </div>
     </div>
 
+    <!--bottom nav bar-->
     <nav class="bottom-nav">
       <div class="container nav-content">
         <div class="nav-links">
+          <!--links for different categories-->
           <a href="{{ url_for('catergory', item_type='Main') }}">Main</a>
           <a href="{{ url_for('catergory', item_type='Side') }}">Side</a>
           <a href="{{ url_for('catergory', item_type='Drink') }}">Drinks</a>
         </div>
+        <!--cart button showing total price-->
         <div class="cart">
           <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
         </div>
@@ -52,22 +68,28 @@
     </nav>
   </header>
 
+  <!--trolley main container-->
   <main class="container trolley-container">
     <h1>Your Trolley</h1>
 
+    <!--checks if there are items in the trolley-->
     {% if trolley_items %}
       <div class="trolley-layout">
         <!-- Item List Section -->
         <div class="trolley-items-list">
+          <!--loops through items added to trolley-->
           {% for item in trolley_items %}
             <div class="trolley-card">
+              <!--item image wrapper-->
               <div class="item-image">
                 <img src="{{ url_for('static', filename='images/' + item.item_photo) }}" alt="{{ item.item_name }}">
               </div>
               
+              <!--item details including name, price, and subtotal-->
               <div class="item-details">
                 <div class="item-header">
                   <h2>{{ item.item_name }}</h2>
+                  <!--subtotal calculated from price multiplied by quantity-->
                   <span class="item-subtotal">Subtotal: ${{ "%.2f"|format(item.price * item.quantity) }}</span>
                 </div>
                 
@@ -77,6 +99,7 @@
                 </div>
               </div>
 
+              <!--button running javascript function to remove item from trolley-->
               <button class="remove-btn" data-item-id="{{ item.item_ID }}" onclick="removeItemFromTrolley(this.dataset.itemId)" title="Remove item">
                 <span class="delete_text">DELETE</span>
               </button>
@@ -87,27 +110,33 @@
         <!-- Checkout Summary Card -->
         <div class="trolley-summary">
           <h2>Order Summary</h2>
+          <!--item count in trolley-->
           <div class="summary-row">
             <span>Items ({{ trolley_items|length }})</span>
           </div>
           <hr class="summary-divider">
+          <!--overall trolley total price-->
           <div class="summary-row total-row">
             <span>Total:</span>
             <span>${{ "%.2f"|format(total) }}</span>
           </div>
+          <!--checkout form submitting POST request to place order-->
           <form action="{{ url_for('checkout') }}" method="POST" onsubmit="return confirm('Are you sure you want to place this order?');">
             <button type="submit" class="order-btn">Place Order</button>
           </form>
         </div>
       </div>
     {% else %}
+      <!--empty state displayed if trolley is empty-->
       <div class="empty-trolley">
         <p>Your trolley is currently empty.</p>
+        <!--button to redirect back to menu-->
         <a href="{{ url_for('home') }}" class="browse-btn">Browse Menu</a>
       </div>
     {% endif %}
   </main>
 
+  <!--javascript file-->
   <script src="{{ url_for('static', filename='js/home_user.js') }}"></script>
   <script src="{{ url_for('static', filename='js/trolley.js') }}"></script>
 </body>

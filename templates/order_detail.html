@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--dynamic page title showing order ID-->
   <title>Order #{{ order.order_ID }} Details</title>
+  <!--stylesheets-->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='order_detail.css') }}">
+  <!--Anton family font-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
@@ -13,9 +16,12 @@
 <body>
 
   <header>
+    <!--items in the top bar-->
     <div class="top-bar">
       <div class="container top-bar-content">
+        <!--logo routed to home-->
         <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
+        <!--cart button showing total price-->
         <div class="cart">
           <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
         </div>
@@ -23,11 +29,15 @@
     </div>
   </header>
 
+  <!--order details container-->
   <main class="detail-container">
+    <!--order summary heading and metadata-->
     <div class="order-header-box">
       <h1>Order #{{ order.order_ID }}</h1>
       <div class="order-meta">
+        <!--date order was created-->
         <span><strong>Date Placed:</strong> {{ order.order_date }}</span>
+        <!--order status checking if completed or pending-->
         <span>
           <strong>Status:</strong> 
           {% if order.status == 1 %}Completed{% else %}Pending{% endif %}
@@ -36,23 +46,31 @@
     </div>
 
     <h2>Items Ordered</h2>
+    <!--list of items included in the order-->
     <div class="detail-items-list">
+      <!--loops through each ordered item-->
       {% for item in items %}
         <div class="detail-item-card">
+          <!--item image-->
           <img src="{{ url_for('static', filename='images/' + item.item_photo) }}" alt="{{ item.item_name }}" class="detail-item-img">
+          <!--item name, quantity, and unit price-->
           <div class="detail-item-info">
             <h3>{{ item.item_name }}</h3>
             <p>Quantity: {{ item.quantity }}</p>
             <p>Price: ${{ "%.2f"|format(item.price) }}</p>
           </div>
+          <!--subtotal calculated from price multiplied by quantity-->
           <div class="detail-item-subtotal">
             ${{ "%.2f"|format(item.price * item.quantity) }}
           </div>
         </div>
       {% endfor %}
     </div>
+    
+    <!--total order price-->
     <div class="summary-total"><p>Total: ${{ "%.2f"|format(order.total_price) }}</p></div>
-      <a href="{{ url_for('order_history') }}" class="back-btn">Back to Order History</a>
+    <!--navigation button back to order history-->
+    <a href="{{ url_for('order_history') }}" class="back-btn">Back to Order History</a>
 
   </main>
 
