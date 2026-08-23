@@ -51,9 +51,9 @@
   margin: 0;
 }
 
-.item-price {
+.item-subtotal {
   color: #666;
-  font-size: 0.95rem;
+  font-size: 20px;
 }
 
 .item-meta {
@@ -63,22 +63,29 @@
   color: #444;
 }
 
-.item-subtotal {
+.item-price {
   font-weight: bold;
 }
 
 .remove-btn {
-  background: transparent;
   border: none;
-  color: #d9534f;
+  background-color: #f05a28;
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 4px;
   transition: background 0.2s;
+  margin: 0px;
 }
 
 .remove-btn:hover {
   background: #fdf2f2;
+}
+
+.material-symbols-outlined {
+  margin: 0 12px 0 0; /* Clear hardcoded top margin to let flexbox center it */
+  font-size: 24px !important;
+  color: #3b2f2f;
+  cursor: pointer;
 }
 
 /* Summary Card */
@@ -150,6 +157,7 @@
   text-decoration: none;
   border-radius: 6px;
 }
+
 /* Item Display Actions Section */
 .price_quantity {
   display: flex;
@@ -197,8 +205,13 @@
   user-select: none;
 }
 
-/* Add Button Styling */
-.add-btn {
+.delete_text{
+  font-family: Anton, sans-serif;
+  margin: 0px;
+}
+
+/* order Button Styling */
+.order-btn {
   padding: 0.65rem 1.4rem;
   background-color: #f05a28;
   color: #ffffff;
@@ -208,13 +221,14 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
+
 }
 
-.add-btn:hover {
+.order-btn:hover {
   background-color: #e35121;
 }
 
-.add-btn:active {
+.order-btn:active {
   transform: scale(0.98);
 }
 

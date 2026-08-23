@@ -1,7 +1,14 @@
 function addItemToTrolley(itemId, quantity) {
-    // Fallback to 1 if input is empty or invalid
-    const parsedQty = parseInt(quantity, 10);
-    const validQuantity = (isNaN(parsedQty) || parsedQty < 1) ? 1 : parsedQty;
+    // Parse input to integer
+    let parsedQty = parseInt(quantity, 10);
+
+    // Validate bounds: Must be a number, between 1 and 10
+    if (isNaN(parsedQty) || parsedQty < 1) {
+        parsedQty = 1;
+    } else if (parsedQty > 10) {
+        alert("You cannot order more than 10 of a single item.");
+        return;
+    }
 
     fetch('/add_to_trolley', {
         method: 'POST',
@@ -10,7 +17,7 @@ function addItemToTrolley(itemId, quantity) {
         },
         body: JSON.stringify({
             item_ID: itemId,
-            quantity: validQuantity
+            quantity: parsedQty
         })
     })
     .then(response => response.json())
