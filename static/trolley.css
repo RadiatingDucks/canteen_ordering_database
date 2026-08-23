@@ -81,13 +81,6 @@
   background: #fdf2f2;
 }
 
-.material-symbols-outlined {
-  margin: 0 12px 0 0; /* Clear hardcoded top margin to let flexbox center it */
-  font-size: 24px !important;
-  color: #3b2f2f;
-  cursor: pointer;
-}
-
 /* Summary Card */
 .trolley-summary {
   background: #ffffff;
@@ -221,7 +214,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
-
+  align-self: right;
 }
 
 .order-btn:hover {
