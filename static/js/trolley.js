@@ -1,3 +1,4 @@
+// fucntion that 
 function addItemToTrolley(itemId, quantity) {
     // Parse input to integer
     let parsedQty = parseInt(quantity, 10);

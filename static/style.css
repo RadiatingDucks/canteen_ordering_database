@@ -240,7 +240,7 @@ h1 {
 /* Image Container ensures fixed image proportions without breaking parent height */
 .img-wrapper {
   width: 100%;
-  height: 250px;
+  height: 200px;
   overflow: hidden;
   border-radius: 4px;
   margin-bottom: 8px;

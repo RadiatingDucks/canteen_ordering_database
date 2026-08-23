@@ -6,20 +6,26 @@
   <title>Home</title>
   <!--stylesheets and font-->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  
+  <!--Anton family font-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <!--search icon-->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
 </head>
 <body>
 
   <header>
+    <!--items in the top bar-->
     <div class="top-bar">
       <div class="container top-bar-content">
+        <!--logo routed to home-->
         <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
+        <!--search bar which takes input and routes to search()-->
         <form class="search-container" method="GET" action="{{ url_for('search') }}">
+          <!--input as query-->
           <input type="text" placeholder="Search..." name="query" autocomplete="off">
+          <!--using search icon as a submit button-->
           <button type="submit" class="search-btn">
             <span class="material-symbols-outlined">search</span>
           </button>

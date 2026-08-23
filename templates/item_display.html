@@ -54,17 +54,21 @@
     </header>
 
     <div class="bodyArrangement">
+      <!--showing picture of item or item name if image not found-->
       <img src="{{ url_for('static', filename='images/' + item.item_photo) }}" alt="{{ item.item_name }}">
 
-      {# item info #}
+      <!--item info-->
       <div class="price_and_information">
         <h1>{{ item.item_name }}</h1>
         
+        <!--price formatted to 2 decimal places-->
         <div class="price_quantity">
           <span class="price">${{ "%.2f"|format(item.price) }}</span>
           
+          <!--if statement of item availibility-->
           {% if item.is_available %}
             <div class="qty-container">
+              <!--specification for the inputut of the quantity selector-->
               <input type="number" 
                 id="qty-{{ item.item_ID }}" 
                 class="qty-input" 
@@ -76,7 +80,7 @@
               >
               <span class="qty-unit">ea</span>
             </div>
-
+            <!-- button whcih if clicked sends quantity and item ID to js file-->
             <button type="button" 
                     data-item-id="{{ item.item_ID }}" 
                     data-item-amount="qty-{{ item.item_ID }}" 
@@ -85,6 +89,7 @@
               Add
             </button>
           {% else %}
+          <!-- if item is out of stock-->
             <span class="out-of-stock">Out of Stock</span>
           {% endif %}
         </div>
