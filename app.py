@@ -5,6 +5,8 @@ from flask import Flask, g, render_template, request, flash, session, redirect
 #super cool functions to generate and check password password hashes
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from datetime import datetime
+
 #initialize app
 app = Flask(__name__)
 
@@ -179,7 +181,7 @@ def search():
         total=get_trolley_total()
     )
 
-@app.route('/add_to_trolley', methods=['POST'])
+
 @app.route('/add_to_trolley', methods=['POST'])
 def add_to_trolley():
     if 'user_id' not in session:
@@ -188,14 +190,15 @@ def add_to_trolley():
     data = request.get_json() or {}
     item_ID = data.get('item_ID')
     
-    # Robust type conversion check
+    # 1. Strict integer conversion
     try:
         quantity = int(data.get('quantity', 1))
     except (ValueError, TypeError):
-        quantity = 1
+        return {'success': False, 'message': 'Invalid quantity entered.'}, 400
 
-    if quantity < 1:
-        return {'success': False, 'message': 'Invalid quantity.'}, 400
+    # 2. Reject non-positive quantities or single orders over 10
+    if quantity < 1 or quantity > 10:
+        return {'success': False, 'message': 'Quantity must be between 1 and 10.'}, 400
 
     user_ID = session['user_id']
     db = get_db()
@@ -214,6 +217,14 @@ def add_to_trolley():
         (user_ID, item_ID)
     ).fetchone()
 
+    # 3. Check cumulative total in cart (max 10 total per item)
+    current_qty = existing_item['quantity'] if existing_item else 0
+    if current_qty + quantity > 10:
+        return {
+            'success': False, 
+            'message': f'You already have {current_qty} in your cart. Maximum limit is 10 per item.'
+        }, 400
+
     if existing_item:
         db.execute(
             "UPDATE Trolley SET quantity = quantity + ? WHERE user_ID = ? AND item_ID = ?",
@@ -227,7 +238,6 @@ def add_to_trolley():
 
     db.commit()
 
-    # Reuse helper function
     new_total = get_trolley_total()
 
     return {
@@ -342,6 +352,70 @@ def get_trolley_total():
 
     return sum(item['price'] * item['quantity'] for item in trolley_items)
 
+
+@app.route('/checkout', methods=['POST'])
+def checkout():
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    user_ID = session['user_id']
+    db = get_db()
+    db.row_factory = sqlite3.Row
+
+    # Fetch items currently in the user's trolley
+    trolley_items = db.execute(
+        """
+        SELECT Trolley.item_ID, Trolley.quantity, Menu.price
+        FROM Trolley
+        JOIN Menu ON Trolley.item_ID = Menu.item_ID
+        WHERE Trolley.user_ID = ?
+        """,
+        (user_ID,)
+    ).fetchall()
+
+    if not trolley_items:
+        flash("Your trolley is empty.")
+        return redirect('/trolley')
+
+    # Calculate total price
+    total_price = sum(item['price'] * item['quantity'] for item in trolley_items)
+    order_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    status = 0  # 0 = Pending/Unfulfilled
+
+    try:
+        # 1. Insert into "Order" table
+        cursor = db.cursor()
+        cursor.execute(
+            """
+            INSERT INTO "Order" (student_ID, order_date, total_price, status)
+            VALUES (?, ?, ?, ?)
+            """,
+            (user_ID, order_date, total_price, status)
+        )
+        order_ID = cursor.lastrowid
+
+        # 2. Insert items into Order_Detail table
+        for item in trolley_items:
+            cursor.execute(
+                """
+                INSERT INTO Order_Detail (order_ID, item_ID, quantity)
+                VALUES (?, ?, ?)
+                """,
+                (order_ID, item['item_ID'], item['quantity'])
+            )
+
+        # 3. Clear user's trolley
+        cursor.execute("DELETE FROM Trolley WHERE user_ID = ?", (user_ID,))
+
+        db.commit()
+        flash("Order placed successfully!")
+        return redirect('/trolley')
+
+    except sqlite3.Error as e:
+        db.rollback()
+        flash("There was an issue processing your order.")
+        return redirect('/trolley')
+
 #error handlers
 @app.errorhandler(404)
 def page_not_found(e):
@@ -358,4 +432,4 @@ def logout():
     return redirect('/')
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

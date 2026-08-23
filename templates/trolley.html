@@ -68,17 +68,17 @@
               <div class="item-details">
                 <div class="item-header">
                   <h2>{{ item.item_name }}</h2>
-                  <span class="item-price">${{ "%.2f"|format(item.price) }}</span>
+                  <span class="item-subtotal">Subtotal: ${{ "%.2f"|format(item.price * item.quantity) }}</span>
                 </div>
                 
                 <div class="item-meta">
                   <span class="item-qty">Qty: {{ item.quantity }}</span>
-                  <span class="item-subtotal">Subtotal: ${{ "%.2f"|format(item.price * item.quantity) }}</span>
+                  <span class="item-price">${{ "%.2f"|format(item.price) }}</span>
                 </div>
               </div>
 
               <button class="remove-btn" data-item-id="{{ item.item_ID }}" onclick="removeItemFromTrolley(this.dataset.itemId)" title="Remove item">
-                <span class="material-symbols-outlined">delete</span>
+                <span class="delete_text">DELETE</span>
               </button>
             </div>
           {% endfor %}
@@ -88,15 +88,16 @@
         <div class="trolley-summary">
           <h2>Order Summary</h2>
           <div class="summary-row">
-            <span>Items ({{ trolley_items|length }}):</span>
-            <span>${{ "%.2f"|format(total) }}</span>
+            <span>Items ({{ trolley_items|length }})</span>
           </div>
           <hr class="summary-divider">
           <div class="summary-row total-row">
             <span>Total:</span>
             <span>${{ "%.2f"|format(total) }}</span>
           </div>
-          <button class="checkout-btn">Place Order</button>
+          <form action="{{ url_for('checkout') }}" method="POST">
+            <button type="submit" class="order-btn">Place Order</button>
+          </form>
         </div>
       </div>
     {% else %}
