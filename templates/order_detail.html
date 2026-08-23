@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order #{{ order.order_ID }} Details</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='order_detail.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="top-bar">
+      <div class="container top-bar-content">
+        <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
+        <div class="cart">
+          <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="detail-container">
+    <div class="order-header-box">
+      <h1>Order #{{ order.order_ID }}</h1>
+      <div class="order-meta">
+        <span><strong>Date Placed:</strong> {{ order.order_date }}</span>
+        <span>
+          <strong>Status:</strong> 
+          {% if order.status == 1 %}Completed{% else %}Pending{% endif %}
+        </span>
+      </div>
+    </div>
+
+    <h2>Items Ordered</h2>
+    <div class="detail-items-list">
+      {% for item in items %}
+        <div class="detail-item-card">
+          <img src="{{ url_for('static', filename='images/' + item.item_photo) }}" alt="{{ item.item_name }}" class="detail-item-img">
+          <div class="detail-item-info">
+            <h3>{{ item.item_name }}</h3>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p>Price: ${{ "%.2f"|format(item.price) }}</p>
+          </div>
+          <div class="detail-item-subtotal">
+            ${{ "%.2f"|format(item.price * item.quantity) }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="summary-total"><p>Total: ${{ "%.2f"|format(order.total_price) }}</p></div>
+      <a href="{{ url_for('order_history') }}" class="back-btn">Back to Order History</a>
+
+  </main>
+
+</body>
+</html>

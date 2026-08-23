@@ -416,6 +416,66 @@ def checkout():
         flash("There was an issue processing your order.")
         return redirect('/trolley')
 
+
+@app.route('/order_history')
+def order_history():
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    user_ID = session['user_id']
+    db = get_db()
+    db.row_factory = sqlite3.Row
+
+    # Fetch all orders for the logged-in student, newest first
+    orders = db.execute(
+        """
+        SELECT order_ID, order_date, total_price, status
+        FROM "Order"
+        WHERE student_ID = ?
+        ORDER BY order_date DESC
+        """,
+        (user_ID,)
+    ).fetchall()
+
+    return render_template('order_history.html', orders=orders, total=get_trolley_total())
+
+
+@app.route('/order/<int:order_ID>')
+def order_detail(order_ID):
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    user_ID = session['user_id']
+    db = get_db()
+    db.row_factory = sqlite3.Row
+
+    # Fetch order details only if it belongs to the logged-in user
+    order = db.execute(
+        """
+        SELECT order_ID, order_date, total_price, status
+        FROM "Order"
+        WHERE order_ID = ? AND student_ID = ?
+        """,
+        (order_ID, user_ID)
+    ).fetchone()
+
+    if not order:
+        flash("Order not found or access denied.")
+        return redirect('/order_history')
+
+    # Fetch line items for this specific order
+    items = db.execute(
+        """
+        SELECT Menu.item_name, Menu.price, Menu.item_photo, Order_Detail.quantity
+        FROM Order_Detail
+        JOIN Menu ON Order_Detail.item_ID = Menu.item_ID
+        WHERE Order_Detail.order_ID = ?
+        """,
+        (order_ID,)
+    ).fetchall()
+
+    return render_template('order_detail.html', order=order, items=items, total=get_trolley_total())
+
 #error handlers
 @app.errorhandler(404)
 def page_not_found(e):

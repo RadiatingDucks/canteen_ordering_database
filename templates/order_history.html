@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order History</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='order_history.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="top-bar">
+      <div class="container top-bar-content">
+        <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
+        <div class="cart">
+          <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="history-container">
+    <h1 class="history-title">Order History</h1>
+
+    {% if orders %}
+      <div class="order-history-list">
+        {% for order in orders %}
+          <a href="{{ url_for('order_detail', order_ID=order.order_ID) }}" class="order-history-card">
+            <div class="order-card-info">
+              <h3>Order #{{ order.order_ID }}</h3>
+              <p><strong>Date:</strong> {{ order.order_date }}</p>
+              <p>
+                <strong>Status:</strong> 
+                {% if order.status == 1 %}
+                  <span class="status-badge completed">Completed</span>
+                {% else %}
+                  <span class="status-badge pending">Pending</span>
+                {% endif %}
+              </p>
+            </div>
+            <div class="order-card-total">
+              <p class="total-amount">${{ "%.2f"|format(order.total_price) }}</p>
+              <span class="view-link">View Details &rarr;</span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>You haven't placed any orders yet.</p>
+      <a href="{{ url_for('home') }}" class="add-btn">Browse Menu</a>
+    {% endif %}
+  </main>
+
+</body>
+</html>
