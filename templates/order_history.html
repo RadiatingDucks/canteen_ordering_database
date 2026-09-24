@@ -4,23 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order History</title>
-  <!--stylesheets-->
+  
+  <!-- External CSS stylesheet imports -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='order_history.css') }}">
-  <!--Anton family font-->
+  
+  <!-- Font assets -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body>
 
+  <!-- Top navigation section -->
   <header>
-    <!--items in the top bar-->
     <div class="top-bar">
       <div class="container top-bar-content">
-        <!--logo routed to home-->
-        <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
-        <!--cart button showing total price-->
+        <!-- Site branding logo -->
+        <div class="top-left">
+          <a href="{{ url_for('home') }}">CANTEEN</a>
+        </div>
+        
+        <!-- Trolley summary link displaying total cost -->
         <div class="cart">
           <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
         </div>
@@ -28,23 +33,24 @@
     </div>
   </header>
 
-  <!--order history main container-->
+  <!-- Main section for user order history -->
   <main class="history-container">
     <h1 class="history-title">Order History</h1>
 
-    <!--checks if the user has any past orders-->
+    <!-- Conditional rendering based on presence of past orders -->
     {% if orders %}
-      <!--list container for order cards-->
       <div class="order-history-list">
-        <!--loops through each order in user history-->
+        <!-- Loop through each order record -->
         {% for order in orders %}
-          <!--clickable card linking to order details page-->
-          <a href="{{ url_for('order_detail', order_ID=order.order_ID) }}" class="order-history-card">
-            <!--order summary details-->
+          <!-- Card linking to individual order detail view -->
+          <a href="{{ url_for('order_detail', order_id=order.order_ID) }}" class="order-history-card">
+            
+            <!-- Order metadata container -->
             <div class="order-card-info">
               <h3>Order #{{ order.order_ID }}</h3>
               <p><strong>Date:</strong> {{ order.order_date }}</p>
-              <!--order status displaying completed or pending badge-->
+              
+              <!-- Order completion status display -->
               <p>
                 <strong>Status:</strong> 
                 {% if order.status == 1 %}
@@ -54,18 +60,19 @@
                 {% endif %}
               </p>
             </div>
-            <!--order total and link indicator-->
+            
+            <!-- Price and navigation prompt -->
             <div class="order-card-total">
               <p class="total-amount">${{ "%.2f"|format(order.total_price) }}</p>
               <span class="view-link">View Details &rarr;</span>
             </div>
+            
           </a>
         {% endfor %}
       </div>
     {% else %}
-      <!--empty state displayed if no orders exist-->
+      <!-- Empty state markup when no orders exist -->
       <p>You haven't placed any orders yet.</p>
-      <!--button to redirect back to menu-->
       <a href="{{ url_for('home') }}" class="add-btn">Browse Menu</a>
     {% endif %}
   </main>

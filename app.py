@@ -129,7 +129,7 @@ def item(item_id):
 
 # item category route
 @app.route('/home/<string:item_type>')
-def catergory(item_type):
+def category(item_type):
     """Function that finds different types of foods"""
     # get database connection
     db = get_db()

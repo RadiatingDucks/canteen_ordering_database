@@ -4,50 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Canteen Login</title>
-  <!--stylesheets-->
+  
+  <!-- Global and template-specific stylesheets -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
 <body>
 
-  <!--main login page container-->
+  <!-- Centered authentication wrapper container -->
   <main class="login-wrapper">
     <div class="login-card">
       <h1>Login</h1>
       
-      <!--login form submitting POST request to /login-->
-      <form action="/login" method="post">
-        <!--student ID input field-->
+      <!-- Authentication form submitting POST request to login route handler -->
+      <form action="{{ url_for('user_login') }}" method="POST">
+        
+        <!-- Student ID / Username input field -->
         <div class="input">
           <label for="username">Student ID</label>
-          <input type="text" id="username" placeholder="E.g. 21345" name="username" required>
+          <input type="text" id="username" name="username" placeholder="E.g. 21345" autocomplete="username" required>
         </div>
 
-        <!--password input field-->
+        <!-- Password input field -->
         <div class="input">
           <label for="password">Password</label>
-          <input type="Password" placeholder="password" id="password" name="password" required>
+          <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
         </div>
 
-        <!--flash messages for login errors or alerts-->
+        <!-- Display flash notifications for authentication errors -->
         {% with messages = get_flashed_messages() %}
           {% if messages %}
-            <p class=flashes>
+            <div class="flashes">
               {% for message in messages %}
-                {{ message }}
+                <p>{{ message }}</p>
               {% endfor %}
-            </p>
+            </div>
           {% endif %}
         {% endwith %}
 
-        <!--submit button for login-->
+        <!-- Form submission trigger -->
         <button type="submit" class="login-btn">Login</button>
 
-        <!--link to signup page for new users-->
+        <!-- Navigation redirect for unregistered accounts -->
         <p class="signup-instead">
           Don't have an account?
           <a href="{{ url_for('signup') }}">Sign up</a>
         </p>
+
       </form>
     </div>
   </main>

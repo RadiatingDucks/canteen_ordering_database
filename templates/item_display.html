@@ -19,53 +19,66 @@
   <body>
 
     <header>
-      <!--items in the top bar-->
+      <!-- Top navigation bar containing logo, search form, and user authentication state -->
       <div class="top-bar">
         <div class="container top-bar-content">
-          <!--logo routed to home-->
-          <div class="top-left"><a href="{{ url_for('home') }}">CANTEEN</a></div>
           
-          <!--search bar which takes input and routes to search()-->
+          <!-- Application brand logo routing back to home page -->
+          <div class="top-left">
+            <a href="{{ url_for('home') }}">CANTEEN</a>
+          </div>
+          
+          <!-- Global search form submitting GET queries to search endpoint -->
           <form class="search-container" method="GET" action="{{ url_for('search') }}">
-            <!--input as query-->
+            <!-- Text input field carrying query string parameter -->
             <input type="text" placeholder="Search..." name="query" autocomplete="off">
-            <!--using search icon as a submit button-->
+            
+            <!-- Submit button styled with Google icon -->
             <button type="submit" class="search-btn">
               <span class="material-symbols-outlined">search</span>
             </button>
           </form>
 
-          <!--If there is an active session-->
+          <!-- Conditional block checking for active logged-in user session -->
           {% if session.get('user_id') %}
-            <!--pop up for account settings-->
-            <!--if link is clicked, run the javascript function OpenAccountmanage-->
-            <a class="top-right" onclick="OpenAccountmanage();return false;" id="accountpopup" href="#">Hi {{ session['first_name'] }}!</a>
-            <!--popup for more options-->
+            <!-- User profile link triggering custom JavaScript modal handler -->
+            <a class="top-right" onclick="OpenAccountmanage();return false;" id="accountpopup" href="#">
+              Hi {{ session['first_name'] }}!
+            </a>
+            
+            <!-- Account options popup modal container -->
             <div id="popup" class="popup">
               <div class="popup-content">
+                <a href="{{ url_for('order_history') }}">Order History</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
               </div>
             </div>
           {% else %}
-            <!--login link-->
-            <div class="top-right"><p><a href="{{ url_for('user_login') }}">Log in</a> / <a href="{{ url_for('signup') }}">Sign up</a></p></div>
+            <!-- Unauthenticated guest user fallback links -->
+            <div class="top-right">
+              <p><a href="{{ url_for('user_login') }}">Log in</a> / <a href="{{ url_for('signup') }}">Sign up</a></p>
+            </div>
           {% endif %}
+
         </div>
       </div>
 
-      <!--bottom nav bar-->
+      <!-- Secondary navigation bar for category routing and live trolley totals -->
       <nav class="bottom-nav">
         <div class="container nav-content">
+          
+          <!-- Category filtering links using Flask endpoint query parameters -->
           <div class="nav-links">
-            <!--links for different categories-->
-            <a href="{{ url_for('catergory', item_type='Main') }}">Main</a>
-            <a href="{{ url_for('catergory', item_type='Side') }}">Side</a>
-            <a href="{{ url_for('catergory', item_type='Drink') }}">Drinks</a>
+            <a href="{{ url_for('category', item_type='Main') }}">Main</a>
+            <a href="{{ url_for('category', item_type='Side') }}">Side</a>
+            <a href="{{ url_for('category', item_type='Drink') }}">Drinks</a>
           </div>
-          <!--cart button showing total price-->
+          
+          <!-- Cart link displaying dynamically formatted float subtotal -->
           <div class="cart">
             <a href="{{ url_for('trolley') }}" id="cart-total-link">🛒 ${{ "%.2f"|format(total) }}</a>
           </div>
+
         </div>
       </nav>
     </header>

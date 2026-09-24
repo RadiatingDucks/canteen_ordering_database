@@ -1,75 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--stylesheets-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
-    <title>Sign Up</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  
+  <!-- Global and template-specific stylesheets -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
 </head>
-
 <body>
-    <!--main signup page container-->
-    <main class="signup-wrapper">
-        <div class="signup-card">
-            <h1>Create an Account</h1>
 
-            <!--signup form submitting POST request-->
-            <form method="POST">
-                <!--student ID input field-->
-                <div class= "input">
-                    <label for="ID">Student ID</label>
-                    <input type="text" id="ID" placeholder="E.g. 21345" name="ID" required>
-                </div>
+  <!-- Main registration page container -->
+  <main class="signup-wrapper">
+    <div class="signup-card">
+      <h1>Create an Account</h1>
 
-                <!--first name input field-->
-                <div class="input">
-                    <label for="first_name">First Name</label>
-                    <input type="text" id="first_name" placeholder="First name" name="first_name" required>
-                </div>
-
-                <!--last name input field-->
-                <div class="input">
-                    <label for="last_name">Last Name</label>
-                    <input type="text" id="last_name" placeholder="Last name" name="last_name" required>
-                </div>
-
-                <!--password input field-->
-                <div class="input">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Password" name="password" required>
-                </div>
-
-                <!--password confirmation input field-->
-                <div class="input">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" placeholder="Confirm pasword" name="confirm_password" required>
-                </div>
-
-                <!--flash messages for form validation errors or alerts-->
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    <p class=flashes>
-                        {% for message in messages %}
-                        {{ message }}
-                        {% endfor %}
-                    </p>
-                    {% endif %}
-                {% endwith %}
-
-                <!--submit button for account creation-->
-                <button class="signup-button" type="submit">Sign Up</button>
-
-            </form>
-
-            <!--link to login page for existing users-->
-            <p class="login-instead">
-                Already have an account?
-                <a href="{{ url_for('user_login') }}">Log in</a>
-            </p>
+      <!-- Registration form submitting POST request to signup route handler -->
+      <form action="{{ url_for('signup') }}" method="POST">
+        
+        <!-- Student ID / User identifier input field -->
+        <div class="input">
+          <label for="ID">Student ID</label>
+          <input type="text" id="ID" name="ID" placeholder="E.g. 21345" autocomplete="off" required>
         </div>
-    </main>
+
+        <!-- User first name input field -->
+        <div class="input">
+          <label for="first_name">First Name</label>
+          <input type="text" id="first_name" name="first_name" placeholder="First name" autocomplete="given-name" required>
+        </div>
+
+        <!-- User last name input field -->
+        <div class="input">
+          <label for="last_name">Last Name</label>
+          <input type="text" id="last_name" name="last_name" placeholder="Last name" autocomplete="family-name" required>
+        </div>
+
+        <!-- New password creation field -->
+        <div class="input">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Password" autocomplete="new-password" required>
+        </div>
+
+        <!-- Password verification input field -->
+        <div class="input">
+          <label for="confirm_password">Confirm Password</label>
+          <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" autocomplete="new-password" required>
+        </div>
+
+        <!-- Flash error and validation message container -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flashes">
+              {% for message in messages %}
+                <p>{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Account submission action trigger -->
+        <button type="submit" class="signup-button">Sign Up</button>
+
+      </form>
+
+      <!-- Navigation link for existing account holders -->
+      <p class="login-instead">
+        Already have an account?
+        <a href="{{ url_for('user_login') }}">Log in</a>
+      </p>
+    </div>
+  </main>
 
 </body>
 </html>

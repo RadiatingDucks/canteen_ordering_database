@@ -3,23 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>500 Error</title>
-  <!--stylesheets and font-->
+  
+  <!-- Page title displayed on browser tab -->
+  <title>500 - Server Error</title>
 
-  <!--css page for template-->
+  <!-- Template-specific external stylesheet -->
   <link rel="stylesheet" href="{{ url_for('static', filename='error.css') }}">
-  <!--fonts links and connections-->
+  
+  <!-- Google Anton font pre-connects and stylesheet import -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <!-- Main container for HTTP 500 error view -->
   <main class="container">
-    <!--informas user of error-->
+    
+    <!-- Primary error heading -->
     <h1>500 - Server Error</h1>
+    
+    <!-- Explanatory message for end user -->
     <p>Something went wrong on our end. Please try again in a moment.</p>
-    <!--link routed to home-->
-    <a href="{{ url_for('home') }}" class="home-btn" >Back to Home</a>
+    
+    <!-- Navigation action button routing back to homepage catalog -->
+    <a href="{{ url_for('home') }}" class="home-btn">Back to Home</a>
+
   </main>
+
 </body>
 </html>

@@ -1,65 +1,66 @@
-// function that adds an item with a specified quantity to the trolley
+// Function that adds an item with a specified quantity to the trolley
 function addItemToTrolley(itemId, quantity) {
-    // Parse input to integer
+    // Parse quantity to a base-10 integer
     let parsedQty = parseInt(quantity, 10);
 
-    // Validate bounds: Must be a number, between 1 and 10
+    // Ensure quantity is valid and at least 1; cap at maximum limit of 10 items
     if (isNaN(parsedQty) || parsedQty < 1) {
-        parsedQty = 1;
+        alert("Please enter a valid quantity of at least 1.");
+        return; // Stop execution to prevent sending invalid or 0 values to the server
     } else if (parsedQty > 10) {
         alert("You cannot order more than 10 of a single item.");
-        return;
+        return; // Stop execution if limit exceeded
     }
 
-    // send POST request to add item to trolley
+    // Send POST request to backend with item ID and validated quantity
     fetch('/add_to_trolley', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            item_ID: itemId,
+            item_id: itemId,
             quantity: parsedQty
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // update header cart link with new total price
+            // Locate navigation cart total element and update formatted price
             const cartLink = document.getElementById('cart-total-link');
             if (cartLink && data.new_total !== undefined) {
                 cartLink.innerText = `🛒 $${data.new_total.toFixed(2)}`;
             }
         } else {
-            // display error message if adding to trolley fails
+            // Display error message returned from server
             alert(data.message);
         }
     })
     .catch(error => console.error('Error adding to trolley:', error));
 }
 
-// function that removes an item from the trolley
+// Function that removes an item from the trolley
 function removeItemFromTrolley(itemId) {
-    // send POST request to remove item from trolley
+    // Send POST request to remove item from backend trolley
     fetch('/remove_from_trolley', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            item_ID: itemId
+            item_id: itemId
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // 1. Update the header cart link
+            // Update main header cart link with updated price
             const cartLink = document.getElementById('cart-total-link');
             if (cartLink) {
                 cartLink.innerText = `🛒 $${data.new_total.toFixed(2)}`;
             }
 
-            // 2. Remove the item card from the page
+            // Find closest parent card of targeted remove button and delete node
             const button = document.querySelector(`button[data-item-id="${itemId}"]`);
             if (button) {
                 const card = button.closest('.trolley-card');
@@ -68,18 +69,17 @@ function removeItemFromTrolley(itemId) {
                 }
             }
 
-            // 3. If no items remain, reload to show the "empty cart" state
+            // Reload page if zero items remain, or update total spans in cart summary
             if (data.item_count === 0) {
                 location.reload();
             } else {
-                // Otherwise, update the summary card totals on the trolley page
                 const summaryTotals = document.querySelectorAll('.trolley-summary span:last-child');
                 summaryTotals.forEach(element => {
                     element.innerText = `$${data.new_total.toFixed(2)}`;
                 });
             }
         } else {
-            // display error message if removing item fails
+            // Display error message if removal fails
             alert(data.message);
         }
     })
