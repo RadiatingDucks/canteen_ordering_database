@@ -19,7 +19,7 @@ function addItemToTrolley(itemId, quantity) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            item_id: itemId,
+            item_ID: itemId,
             quantity: parsedQty
         })
     })
@@ -48,7 +48,7 @@ function removeItemFromTrolley(itemId) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            item_id: itemId
+            item_ID: itemId
         })
     })
     .then(response => response.json())
